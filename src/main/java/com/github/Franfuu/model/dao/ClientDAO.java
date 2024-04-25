@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.*;
-
+//dejame pushear
 
 
 public class ClientDAO implements DAO<Client, Integer> {

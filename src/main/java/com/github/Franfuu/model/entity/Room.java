@@ -6,13 +6,13 @@ import java.util.Objects;
 
 public class Room {
     private int RoomCode;
-    private int NRooms;
+    private int NRoom;
     private List<Machine> machines;
 
 
     public Room(int roomCode, int NRooms, List<Machine> machines) {
         RoomCode = roomCode;
-        this.NRooms = NRooms;
+        this.NRoom = NRooms;
         this.machines = machines;
     }
 
@@ -28,12 +28,12 @@ public class Room {
         RoomCode = roomCode;
     }
 
-    public int getNRooms() {
-        return NRooms;
+    public int getNRoom() {
+        return NRoom;
     }
 
     public void setNRooms(int NRooms) {
-        this.NRooms = NRooms;
+        this.NRoom = NRooms;
     }
 
     public List<Machine> getMachines() {
@@ -49,19 +49,19 @@ public class Room {
         if (this == object) return true;
         if (!(object instanceof Room)) return false;
         Room room = (Room) object;
-        return getRoomCode() == room.getRoomCode() && getNRooms() == room.getNRooms() && Objects.equals(getMachines(), room.getMachines());
+        return getRoomCode() == room.getRoomCode() && getNRoom() == room.getNRoom() && Objects.equals(getMachines(), room.getMachines());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRoomCode(), getNRooms(), getMachines());
+        return Objects.hash(getRoomCode(), getNRoom(), getMachines());
     }
 
     @Override
     public String toString() {
         return "Room{" +
                 "RoomCode=" + RoomCode +
-                ", NRooms=" + NRooms +
+                ", NRooms=" + NRoom +
                 ", machines=" + machines +
                 '}';
     }

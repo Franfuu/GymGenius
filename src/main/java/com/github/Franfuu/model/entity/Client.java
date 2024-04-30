@@ -1,17 +1,28 @@
 package com.github.Franfuu.model.entity;
 
-import javafx.scene.image.Image;
-
 import java.util.Objects;
 
 public class Client {
     private int ClientCode;
+
+    private Machine machine;
     private String Name;
     private String Surname;
     private String Dni;
     private String Phone;
-    private static Image Photo;
-    private static Sex Sex;
+    private String Sex;
+
+    public Client() {
+    }
+
+    public Client(int clientCode, String name, String surname, String dni, String phone, String sex) {
+        ClientCode = clientCode;
+        Name = name;
+        Surname = surname;
+        Dni = dni;
+        Phone = phone;
+        Sex = sex;
+    }
 
     public int getClientCode() {
         return ClientCode;
@@ -28,6 +39,7 @@ public class Client {
     public void setName(String name) {
         Name = name;
     }
+
     public String getSurname() {
         return Surname;
     }
@@ -52,29 +64,11 @@ public class Client {
         Phone = phone;
     }
 
-    public Image getPhoto() {
-        return Photo;
-    }
-
-    public static void setPhoto(Image photo) {
-        Photo = photo;
-    }
-
-    public com.github.Franfuu.model.entity.Sex getSex() {
+    public String getSex() {
         return Sex;
     }
 
-    public static void setSex(com.github.Franfuu.model.entity.Sex sex) {
-        Sex = sex;
-    }
-
-    public Client(int clientCode, String name, String surname, String dni, String phone, Image photo, com.github.Franfuu.model.entity.Sex sex) {
-        ClientCode = clientCode;
-        Name = name;
-        Surname = surname;
-        Dni = dni;
-        Phone = phone;
-        Photo = photo;
+    public void setSex(String sex) {
         Sex = sex;
     }
 
@@ -83,12 +77,12 @@ public class Client {
         if (this == object) return true;
         if (!(object instanceof Client)) return false;
         Client client = (Client) object;
-        return getClientCode() == client.getClientCode() && Objects.equals(getName(), client.getName()) && Objects.equals(getSurname(), client.getSurname()) && Objects.equals(getDni(), client.getDni()) && Objects.equals(getPhone(), client.getPhone()) && Objects.equals(getPhoto(), client.getPhoto()) && getSex() == client.getSex();
+        return getClientCode() == client.getClientCode() && Objects.equals(getName(), client.getName()) && Objects.equals(getSurname(), client.getSurname()) && Objects.equals(getDni(), client.getDni()) && Objects.equals(getPhone(), client.getPhone()) && Objects.equals(getSex(), client.getSex());
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        return Objects.hash(getClientCode(), getName(), getSurname(), getDni(), getPhone(), getSex());
     }
 
     @Override
@@ -99,10 +93,7 @@ public class Client {
                 ", Surname='" + Surname + '\'' +
                 ", Dni='" + Dni + '\'' +
                 ", Phone='" + Phone + '\'' +
-                ", Photo=" + Photo +
-                ", Sex=" + Sex +
+                ", Sex='" + Sex + '\'' +
                 '}';
     }
-
-
 }

@@ -1,18 +1,25 @@
 package com.github.Franfuu.model.entity;
 
+import java.util.List;
+import java.util.Objects;
+
 public class Machine {
     private int MachineCode;
     private int RoomCode;
-    private MachineType MachineType;
+    private String MachineType;
 
-    public Machine(int machineCode, int roomCode, MachineType machineType) {
-        MachineCode = machineCode;
-        RoomCode = roomCode;
-        MachineType = machineType;
-    }
+
+    private List<Client> clients;
 
     public Machine() {
 
+    }
+
+    public Machine(int machineCode, int roomCode, String machineType, List<Client> clients) {
+        MachineCode = machineCode;
+        RoomCode = roomCode;
+        MachineType = machineType;
+        this.clients = clients;
     }
 
     public int getMachineCode() {
@@ -31,12 +38,19 @@ public class Machine {
         RoomCode = roomCode;
     }
 
-    public com.github.Franfuu.model.entity.MachineType getMachineType() {
+    public String getMachineType() {
         return MachineType;
     }
 
-    public void setMachineType(com.github.Franfuu.model.entity.MachineType machineType) {
+    public void setMachineType(String machineType) {
         MachineType = machineType;
+    }
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
     }
 
     @Override
@@ -44,20 +58,11 @@ public class Machine {
         if (this == object) return true;
         if (!(object instanceof Machine)) return false;
         Machine machine = (Machine) object;
-        return getMachineCode() == machine.getMachineCode() && getRoomCode() == machine.getRoomCode() && getMachineType() == machine.getMachineType();
+        return getMachineCode() == machine.getMachineCode() && getRoomCode() == machine.getRoomCode() && Objects.equals(getMachineType(), machine.getMachineType()) && Objects.equals(getClients(), machine.getClients());
     }
 
     @Override
     public int hashCode() {
-        return 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Machine{" +
-                "MachineCode=" + MachineCode +
-                ", RoomCode=" + RoomCode +
-                ", MachineType=" + MachineType +
-                '}';
+        return Objects.hash(getMachineCode(), getRoomCode(), getMachineType(), getClients());
     }
 }

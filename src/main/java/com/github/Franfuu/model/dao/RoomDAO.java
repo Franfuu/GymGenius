@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomDAO implements DAO<Room, Integer> {
-    private final static String INSERT = "INSERT INTO room (RoomCode, NRooms) VALUES (?,?)";
-    private final static String UPDATE = "UPDATE room SET NRooms=? WHERE RoomCode=?";
-    private final static String FINDALL = "SELECT RoomCode, NRooms FROM room";
-    private final static String FINDBYROOMCODE = "SELECT RoomCode, NRooms FROM room WHERE RoomCode=?";
+    private final static String INSERT = "INSERT INTO room (RoomCode, NRoom) VALUES (?,?)";
+    private final static String UPDATE = "UPDATE room SET NRoom=? WHERE RoomCode=?";
+    private final static String FINDALL = "SELECT RoomCode, NRoom FROM room";
+    private final static String FINDBYROOMCODE = "SELECT RoomCode, NRoom FROM room WHERE RoomCode=?";
     private final static String DELETE = "DELETE FROM room WHERE RoomCode=?";
 
-    @Override
+
     public Room save(Room entity) {
         Room result = entity;
         if (entity == null || entity.getRoomCode() == 0) return result;
@@ -28,7 +28,7 @@ public class RoomDAO implements DAO<Room, Integer> {
             // INSERT
             try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
                 pst.setInt(1, entity.getRoomCode());
-                pst.setInt(2, entity.getNRooms());
+                pst.setInt(2, entity.getNRoom());
                 pst.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -36,7 +36,7 @@ public class RoomDAO implements DAO<Room, Integer> {
         } else {
             // UPDATE
             try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
-                pst.setInt(1, entity.getNRooms());
+                pst.setInt(1, entity.getNRoom());
                 pst.setInt(2, entity.getRoomCode());
                 pst.executeUpdate();
             } catch (SQLException e) {
@@ -46,7 +46,7 @@ public class RoomDAO implements DAO<Room, Integer> {
         return result;
     }
 
-    @Override
+
     public Room delete(Room entity) throws SQLException {
         if (entity == null || entity.getRoomCode() == 0) return entity;
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
@@ -56,7 +56,7 @@ public class RoomDAO implements DAO<Room, Integer> {
         return entity;
     }
 
-    @Override
+
     public Room findByCode(Integer key) {
         Room result = new Room();
         if (key == 0) return result;

@@ -2,7 +2,6 @@ package com.github.Franfuu.model.dao;
 
 import com.github.Franfuu.model.connection.ConnectionMariaDB;
 import com.github.Franfuu.model.entity.Machine;
-import com.github.Franfuu.model.entity.MachineType;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -16,7 +15,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
     private final static String FINDBYCODE = "SELECT MachineCode, RoomCode, MachineType FROM machine WHERE MachineCode=?";
     private final static String DELETE = "DELETE FROM machine WHERE MachineCode=?";
 
-    @Override
+
     public Machine save(Machine entity) {
         Machine result = entity;
         if (entity == null || entity.getMachineCode() == 0) return result;
@@ -45,7 +44,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
         return result;
     }
 
-    @Override
+
     public Machine delete(Machine entity) throws SQLException {
         if (entity == null || entity.getMachineCode() == 0) return entity;
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
@@ -55,7 +54,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
         return entity;
     }
 
-    @Override
+
     public Machine findByCode(Integer key) {
         Machine result = new Machine();
         if (key == 0) return result;
@@ -65,7 +64,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
             if (res.next()) {
                 result.setMachineCode(res.getInt("MachineCode"));
                 result.setRoomCode(res.getInt("RoomCode"));
-                result.setMachineType(MachineType.valueOf(res.getString("MachineType")));
+                result.setMachineType(res.getString("MachineType"));
             }
             res.close();
         } catch (SQLException e) {

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.Franfuu.view.MainController">
+   <children>
+      <TableView fx:id="tableInfo" layoutX="23.0" layoutY="169.0" prefHeight="256.0" prefWidth="665.0">
+         <columns>
+            <TableColumn fx:id="colCode" prefWidth="80.00006103515625" text="Cod. Cliente" />
+            <TableColumn fx:id="colName" prefWidth="79.99993896484375" text="Nombre" />
+            <TableColumn fx:id="colSurname" prefWidth="91.20001220703125" text="Apellido" />
+            <TableColumn fx:id="colDNI" prefWidth="79.199951171875" text="DNI" />
+            <TableColumn fx:id="colEmail" prefWidth="146.4000244140625" text="Email" />
+            <TableColumn fx:id="colAddMachine" prefWidth="115.199951171875" text="Añadir Maquinas" />
+            <TableColumn fx:id="colDeleteClient" prefWidth="74.39990234375" text="Eliminar" />
+         </columns>
+      </TableView>
+      <ImageView fitHeight="105.0" fitWidth="115.0">
+         <image>
+            <Image url="@_0e6cba00-2feb-4232-9ad3-a3335a49bb12.jpeg" />
+         </image>
+      </ImageView>
+      <Button fx:id="addClient" layoutX="134.0" layoutY="31.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="115.0" text="Agregar cliente" />
+      <Button fx:id="addMachine" layoutX="298.0" layoutY="31.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="115.0" text="Agregar maquinas" />
+      <Button fx:id="addRoom" layoutX="458.0" layoutY="31.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="115.0" text="Agregar salas" />
+      <ImageView fx:id="exitButton" fitHeight="54.0" fitWidth="49.0" layoutX="634.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@WhhExitalt.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

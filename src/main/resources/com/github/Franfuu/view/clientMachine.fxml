@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.Franfuu.view.ClientMachineController">
+   <children>
+      <TableView fx:id="tableMachine" layoutX="53.0" layoutY="136.0" prefHeight="214.0" prefWidth="494.0">
+         <columns>
+            <TableColumn fx:id="colRoom" prefWidth="53.60003662109375" text="Sala" />
+            <TableColumn fx:id="colCodeMachine" prefWidth="191.199951171875" text="Codigo Maquina" />
+            <TableColumn fx:id="colMachine" prefWidth="249.60003662109375" text="Maquinas asignadas" />
+         </columns>
+      </TableView>
+      <ImageView fitHeight="110.0" fitWidth="119.0">
+         <image>
+            <Image url="@_0e6cba00-2feb-4232-9ad3-a3335a49bb12.jpeg" />
+         </image>
+      </ImageView>
+      <Text layoutX="126.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido       , estas son las maquinas que tienes disponibles. " wrappingWidth="347.6923828125">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="exitButton" fitHeight="54.0" fitWidth="49.0" layoutX="515.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@WhhExitalt.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

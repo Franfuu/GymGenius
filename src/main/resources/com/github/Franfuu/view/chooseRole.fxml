@@ -7,27 +7,27 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<fx:root fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="black" type="AnchorPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.Franfuu.view.ChooseRoleController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="black" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.Franfuu.view.ChooseRoleController">
    <children>
       <Text layoutX="148.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Elige entre gestor y cliente">
          <font>
             <Font size="26.0" />
          </font>
       </Text>
-      <ImageView fitHeight="142.0" fitWidth="156.0" layoutX="222.0" layoutY="14.0">
+      <ImageView fitHeight="145.0" fitWidth="153.0" layoutX="222.0" layoutY="14.0">
          <image>
             <Image url="@_0e6cba00-2feb-4232-9ad3-a3335a49bb12.jpeg" />
          </image>
       </ImageView>
-      <Button fx:id="adminWayButton" layoutX="100.0" layoutY="264.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="96.0" text="Gestor">
+      <Button fx:id="adminWayButton" layoutX="100.0" layoutY="264.0" mnemonicParsing="false" onAction="#setAdminWayButton" prefHeight="41.0" prefWidth="96.0" text="Gestor">
          <font>
             <Font size="21.0" />
          </font>
       </Button>
-      <Button fx:id="clientWayButton" layoutX="404.0" layoutY="264.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="96.0" text="Cliente">
+      <Button fx:id="clientWayButton" layoutX="404.0" layoutY="264.0" mnemonicParsing="false" onAction="#setClientWayButton" prefHeight="41.0" prefWidth="96.0" text="Cliente">
          <font>
             <Font size="21.0" />
          </font>
       </Button>
    </children>
-</fx:root>
+</AnchorPane>

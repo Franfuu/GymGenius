@@ -23,7 +23,7 @@
          </children>
       </AnchorPane>
       <TextField fx:id="fieldName" promptText="Nombre" />
-      <TextField fx:id="fieldRoom" promptText="Sala" />
-      <Button fx:id="addMachineButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="127.0" text="Agregar maquina" />
+      <TextField fx:id="fieldRoom" onAction="#onSave" promptText="Sala" />
+      <Button fx:id="addMachineButton" mnemonicParsing="false" onAction="#onSave" prefHeight="26.0" prefWidth="127.0" text="Agregar maquina" />
    </children>
 </VBox>

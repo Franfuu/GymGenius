@@ -18,8 +18,7 @@ public class Client extends Machine  {
     public Client() {
     }
 
-    public Client(int code, String name, String surname, String email, String password, String dni, String sex) {
-        Code = code;
+    public Client( String name, String surname, String email, String password, String dni, String sex) {
         this.machines = machines;
         Name = name;
         Surname = surname;

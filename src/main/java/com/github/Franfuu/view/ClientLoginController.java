@@ -26,7 +26,7 @@ public class ClientLoginController extends Controller implements Initializable {
     private TextField clientPassword;
 
     private ClientDAO clientDAO = new ClientDAO();
-
+/*
     @FXML
     public void login() throws IOException {
         String email = clientEmail.getText();
@@ -50,7 +50,7 @@ public class ClientLoginController extends Controller implements Initializable {
 
         }
     }
-
+*/
     @Override
     public void onOpen(Object input) throws Exception {
 

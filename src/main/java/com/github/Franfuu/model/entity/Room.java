@@ -11,9 +11,9 @@ public class Room {
 
     }
 
-    public Room(int code, List<Machine> machines) {
+    public Room(int code) {
         Code = code;
-        this.machines = machines;
+
     }
 
     public int getCode() {

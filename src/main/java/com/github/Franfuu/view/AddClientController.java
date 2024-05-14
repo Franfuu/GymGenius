@@ -12,8 +12,6 @@ import java.util.ResourceBundle;
 
 public class AddClientController extends Controller implements Initializable {
     @FXML
-    private VBox vBox;
-    @FXML
     private AnchorPane anchorPane;
     @FXML
     private Button addClientButton;
@@ -44,4 +42,5 @@ public class AddClientController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
 }

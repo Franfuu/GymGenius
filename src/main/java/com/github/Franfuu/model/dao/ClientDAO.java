@@ -41,23 +41,27 @@ public class ClientDAO {
                     pst.setString(7, entity.getSex());
                     pst.executeUpdate();
                 }
-            } else {
-                // UPDATE
-                try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
-                    pst.setString(1, entity.getName());
-                    pst.setString(2, entity.getSurname());
-                    pst.setString(3, entity.getEmail());
-                    pst.setString(4, entity.getPassword());
-                    pst.setString(5, entity.getDni());
-                    pst.setString(6, entity.getSex());
-                    pst.setInt(7, entity.getCode());
-                    pst.executeUpdate();
-                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
+    }
+
+
+    public void update(Client entity) {
+        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
+            pst.setString(1, entity.getName());
+            pst.setString(2, entity.getSurname());
+            pst.setString(3, entity.getEmail());
+            pst.setString(4, entity.getPassword());
+            pst.setString(5, entity.getDni());
+            pst.setString(6, entity.getSex());
+            pst.setInt(7, entity.getCode());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ClientDAO build() {

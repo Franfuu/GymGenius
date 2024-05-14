@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Client extends Machine {
+public class Client extends Machine  {
     private int Code;
     private List<Machine> machines;
     private String Name;

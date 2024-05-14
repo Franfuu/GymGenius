@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomDAO implements DAO<Room, Integer> {
-    private final static String INSERT = "INSERT INTO room (RoomCode, NRoom) VALUES (?,?)";
-    private final static String UPDATE = "UPDATE room SET NRoom=? WHERE RoomCode=?";
-    private final static String FINDALL = "SELECT RoomCode, NRoom FROM room";
-    private final static String FINDBYCODE = "SELECT RoomCode, NRoom FROM room WHERE RoomCode=?";
+    private final static String INSERT = "INSERT INTO room (RoomCode) VALUES (?)";
+    private final static String UPDATE = "UPDATE room SET RoomCode=? WHERE RoomCode=?";
+    private final static String FINDALL = "SELECT RoomCode FROM room";
+    private final static String FINDBYCODE = "SELECT RoomCode FROM room WHERE RoomCode=?";
     private final static String DELETE = "DELETE FROM room WHERE RoomCode=?";
 
 
@@ -28,14 +28,12 @@ public class RoomDAO implements DAO<Room, Integer> {
                 // INSERT
                 try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
                     pst.setInt(1, entity.getCode());
-                    pst.setInt(2, entity.getNRoom());
                     pst.executeUpdate();
                 }
             } else {
                 // UPDATE
                 try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
-                    pst.setInt(1, entity.getNRoom());
-                    pst.setInt(2, entity.getCode());
+                    pst.setInt(1, entity.getCode());
                     pst.executeUpdate();
                 }
             }
@@ -61,7 +59,6 @@ public class RoomDAO implements DAO<Room, Integer> {
                 ResultSet res = pst.executeQuery();
                 if (res.next()) {
                     result.setCode(res.getInt("RoomCode"));
-                    result.setNRoom(res.getInt("NRoom"));
                 }
                 res.close();
             } catch (SQLException e) {
@@ -77,7 +74,6 @@ public class RoomDAO implements DAO<Room, Integer> {
                 while (res.next()) {
                     Room room = new Room();
                     room.setCode(res.getInt("RoomCode"));
-                    room.setNRoom(res.getInt("NRoom"));
                     result.add(room);
                 }
                 res.close();

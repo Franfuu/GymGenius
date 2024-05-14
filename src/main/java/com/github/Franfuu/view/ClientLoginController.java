@@ -36,7 +36,7 @@ public class ClientLoginController extends Controller implements Initializable {
 
         if (clientLogin != null) {
             if (password.equals(clientLogin.getPassword()) && email.equals(clientLogin.getEmail())) {
-                Session.getInstance().login(clientLogin);
+                Session.getInstance().logIn(clientLogin);
                 //App.start("clientMachine");
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

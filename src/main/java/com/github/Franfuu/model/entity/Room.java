@@ -6,16 +6,13 @@ import java.util.Objects;
 
 public class Room {
     private int Code;
-    private int NRoom;
     private List<Machine> machines;
-
     public Room() {
 
     }
 
-    public Room(int code, int NRoom, List<Machine> machines) {
+    public Room(int code, List<Machine> machines) {
         Code = code;
-        this.NRoom = NRoom;
         this.machines = machines;
     }
 
@@ -25,14 +22,6 @@ public class Room {
 
     public void setCode(int code) {
         Code = code;
-    }
-
-    public int getNRoom() {
-        return NRoom;
-    }
-
-    public void setNRoom(int NRoom) {
-        this.NRoom = NRoom;
     }
 
     public List<Machine> getMachines() {
@@ -60,7 +49,6 @@ public class Room {
     public String toString() {
         return "Room{" +
                 "Code=" + Code +
-                ", NRoom=" + NRoom +
                 ", machines=" + machines +
                 '}';
     }

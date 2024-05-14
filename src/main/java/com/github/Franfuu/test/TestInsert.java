@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 public class TestInsert {
     public static void main(String[] args) throws SQLException {
-        Client c = new Client(3,"Franfau","Furias","a@a.com","123456","12345678","Macho");
-        ClientDAO.build().update(c);
+        Client c = new Client("Franfarsu","Furias","a@a.com","123456","12345678","Macho");
+        ClientDAO.build().save(c);
     }
 
 }

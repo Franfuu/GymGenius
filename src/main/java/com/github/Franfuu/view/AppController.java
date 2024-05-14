@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -17,6 +18,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 
 import java.io.IOException;
@@ -48,9 +51,20 @@ public class AppController extends Controller implements Initializable {
         this.centerController = view.controller;
         this.centerController.onOpen(data);
     }
+    public void openModal(Scenes scene, String title,Controller parent, Object data) throws Exception {
+        View view = loadFXML(scene);
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(App.stage);
+        Scene _scene = new Scene(view.scene);
+        stage.setScene(_scene);
+        view.controller.onOpen(parent);
+        stage.showAndWait();
+    }
 
     public void onOpen(Object input) throws Exception {
-       changeScene(Scenes.MAINPAGE, null);
+       changeScene(Scenes.CHOOSEROLE, null);
     }
 
     public void onClose(Object output) {

@@ -60,12 +60,6 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private ObservableList<Client> clientList;
 
-    public void saveClient(Client newClient) throws SQLException {
-        ClientDAO.build().save(newClient);
-        this.clientList.add(newClient);
-
-    }
-
     @Override
     public void onOpen(Object input) throws Exception {
         ClientDAO cdao = new ClientDAO();
@@ -114,8 +108,8 @@ public class MainController extends Controller implements Initializable {
                 alert.setContentText("Error, el valor ingresado no es un número válido");
                 alert.show();
             } catch (Exception e) {
-                // Manejo de otras excepciones
-                e.printStackTrace(); // Imprimir traza de la excepción para depuración
+
+                e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Error, se produjo un problema al actualizar los datos");
                 alert.show();
@@ -125,8 +119,21 @@ public class MainController extends Controller implements Initializable {
     }
 
     public void openAddClient() throws Exception {
-            App.currentController.changeScene(Scenes.ADDCLIENT, null);
+            //App.currentController.changeScene(Scenes.ADDCLIENT, null);
+        App.currentController.openModal(Scenes.ADDCLIENT, "Agregando cliente...", this, null);
 
+    }
+    public void openAddRoom() throws Exception {
+        App.currentController.openModal(Scenes.ADDROOM, "Agregando sala...", this, null);
+    }
+    public void openAddMachine() throws Exception {
+        App.currentController.openModal(Scenes.ADDMACHINE, "Agregando maquina...", this, null);
+    }
+
+
+    public void saveClient(Client newClient)  {
+        ClientDAO.build().save(newClient);
+        this.clientList.add(newClient);
     }
 }
 

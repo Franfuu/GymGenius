@@ -12,7 +12,7 @@ import java.util.List;
 public class ClientDAO {
     private static final String FINDALL = "SELECT * FROM client";
     private static final String FINDBYCODE = "SELECT * FROM client WHERE Clientcode=?";
-    private static final String INSERT = "INSERT INTO client (ClientCode, Name, Surname, Email, Password, DNI, Sex) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO client ( Name, Surname, Email, Password, DNI, Sex) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE client SET Name=?, Surname=?, Email=?, Password=?, DNI=?, Sex=? WHERE ClientCode=?";
     private static final String DELETE = "DELETE FROM client WHERE ClientCode=?";
     private static final String FINDBYEMAIL ="SELECT * FROM client WHERE Email=?";
@@ -27,18 +27,17 @@ public class ClientDAO {
 
     public Client save(Client entity) {
         Client result = new Client();
-        if (entity == null || entity.getCode() == 0) return result;
+        if (entity == null || entity.getCode() != 0) return result;
         try {
             if (findByClientCode(entity.getCode()) == null) {
                 // INSERT CLIENT
                 try (PreparedStatement pst = conn.prepareStatement(INSERT)) {
-                    pst.setInt(1, entity.getCode());
-                    pst.setString(2, entity.getName());
-                    pst.setString(3, entity.getSurname());
-                    pst.setString(4, entity.getEmail());
-                    pst.setString(5, entity.getPassword());
-                    pst.setString(6, entity.getDni());
-                    pst.setString(7, entity.getSex());
+                    pst.setString(1, entity.getName());
+                    pst.setString(2, entity.getSurname());
+                    pst.setString(3, entity.getEmail());
+                    pst.setString(4, entity.getPassword());
+                    pst.setString(5, entity.getDni());
+                    pst.setString(6, entity.getSex());
                     pst.executeUpdate();
                 }
             }
@@ -49,7 +48,8 @@ public class ClientDAO {
     }
 
 
-    public void update(Client entity) {
+    public Client update(Client entity) {
+        Client result = new Client();
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
             pst.setString(1, entity.getName());
             pst.setString(2, entity.getSurname());
@@ -57,11 +57,11 @@ public class ClientDAO {
             pst.setString(4, entity.getPassword());
             pst.setString(5, entity.getDni());
             pst.setString(6, entity.getSex());
-            pst.setInt(7, entity.getCode());
             pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     public static ClientDAO build() {
@@ -99,6 +99,7 @@ public class ClientDAO {
                     c.setSex(res.getString("Sex"));
                     result = c;
                 }
+                res.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -179,8 +180,8 @@ class ClientLazy extends Client {
 
     }
 
-    public ClientLazy(int code, String name, String surname, String email, String password, String dni, String sex) {
-        super(code, name, surname, email, password, dni, sex);
+    public ClientLazy( String name, String surname, String email, String password, String dni, String sex) {
+        super( name, surname, email, password, dni, sex);
     }
 
     @Override
@@ -194,10 +195,10 @@ class ClientLazy extends Client {
                     while (res.next()) {
                         Client c = new Client();
                         c.setCode(res.getInt("ClientCode"));
-                        c.setDni(res.getString("DNI"));
-                        c.setName(res.getString("Name"));
+
                         result.add(c);
                     }
+                    res.close();
                 }
                 super.setMachines(result);
             } catch (SQLException e) {

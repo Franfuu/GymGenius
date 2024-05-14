@@ -12,8 +12,7 @@ public class Machine {
 
     }
 
-    public Machine(int code, Room room, String machineType, ArrayList<Client> clients) {
-        Code = code;
+    public Machine( Room room, String machineType) {
         this.room = room;
         MachineType = machineType;
 

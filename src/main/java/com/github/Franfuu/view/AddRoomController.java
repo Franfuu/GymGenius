@@ -9,6 +9,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -40,18 +41,45 @@ public class AddRoomController extends Controller implements Initializable {
 
     }
     public void onSave(Event event) throws Exception {
-        int roomCode = Integer.parseInt(fieldRoom.getText());
+        String roomCodeText = fieldRoom.getText();
 
-        // Crear una instancia de Room con el código proporcionado
+        if (roomCodeText.trim().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "El campo no puede estar vacío.");
+            return;
+        }
+        int roomCode;
+        try {
+            roomCode = Integer.parseInt(roomCodeText);
+
+
+            if (roomCode > 9999) {
+                showAlert(Alert.AlertType.ERROR, "Error", "El valor no puede ser mayor que 9999.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "El valor ingresado no es válido.");
+            return;
+        }
+
         Room room = new Room(roomCode);
-
-        // Crear una instancia de RoomDAO
         RoomDAO roomDAO = new RoomDAO();
 
-        // Guardar la habitación en la base de datos
+        if (roomDAO.findByRoomCode(roomCode) != null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "El código de habitación ya existe en la base de datos.");
+            return;
+        }
+
         roomDAO.save(room);
         App.currentController.changeScene(Scenes.SHOWMACHINES, null);
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 
 }

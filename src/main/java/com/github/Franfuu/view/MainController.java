@@ -34,7 +34,7 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private Button addClient;
     @FXML
-    private Button addMachine;
+    private Button showMachines;
     @FXML
     private Button addRoom;
     @FXML
@@ -77,22 +77,12 @@ public class MainController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         tableInfo.setEditable(true);
         colCode.setCellValueFactory(client -> new SimpleStringProperty(String.valueOf(client.getValue().getCode())));
-        colName.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getName()));
-        colSurname.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getSurname()));
-        colDNI.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getDni()));
-        colEmail.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getEmail()));
-        colSex.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getSex()));
-        colName.setCellFactory(TextFieldTableCell.forTableColumn());
-        colSurname.setCellFactory(TextFieldTableCell.forTableColumn());
-        colDNI.setCellFactory(TextFieldTableCell.forTableColumn());
-        colEmail.setCellFactory(TextFieldTableCell.forTableColumn());
-        colSex.setCellFactory(TextFieldTableCell.forTableColumn());
+        //colCode.setCellFactory(TextFieldTableCell.forTableColumn());
         colCode.setOnEditCommit(event -> {
             try {
                 if (event.getNewValue().equals(event.getOldValue())) {
                     return;
                 }
-
                 if (event.getNewValue().length() <= 60) {
                     Client client = event.getRowValue();
                     client.setCode(Integer.parseInt(event.getNewValue()));
@@ -103,15 +93,123 @@ public class MainController extends Controller implements Initializable {
                     alert.show();
                 }
             } catch (NumberFormatException e) {
-
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Error, el valor ingresado no es un número válido");
                 alert.show();
-            } catch (Exception e) {
+            }
+        });
+        colName.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getName()));
+        colName.setCellFactory(TextFieldTableCell.forTableColumn());
+        colName.setOnEditCommit(event -> {
+            try {
+                if (event.getNewValue().equals(event.getOldValue())) {
+                    return;
+                }
 
-                e.printStackTrace();
+                if (event.getNewValue().length() <= 60) {
+                    Client client = event.getRowValue();
+                    client.setName(event.getNewValue());
+                    ClientDAO.build().update(client);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Error, el campo no puede superar los 50 caracteres");
+                    alert.show();
+                }
+            } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Error, se produjo un problema al actualizar los datos");
+                alert.setContentText("Error, el valor ingresado no es un número válido");
+                alert.show();
+            }
+        });
+        colSurname.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getSurname()));
+        colSurname.setCellFactory(TextFieldTableCell.forTableColumn());
+        colSurname.setOnEditCommit(event -> {
+            try {
+                if (event.getNewValue().equals(event.getOldValue())) {
+                    return;
+                }
+
+                if (event.getNewValue().length() <= 60) {
+                    Client client = event.getRowValue();
+                    client.setSurname(event.getNewValue());
+                    ClientDAO.build().update(client);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Error, el campo no puede superar los 50 caracteres");
+                    alert.show();
+                }
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Error, el valor ingresado no es un número válido");
+                alert.show();
+            }
+        });
+        colDNI.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getDni()));
+        colDNI.setCellFactory(TextFieldTableCell.forTableColumn());
+        colDNI.setOnEditCommit(event -> {
+            try {
+                if (event.getNewValue().equals(event.getOldValue())) {
+                    return;
+                }
+
+                if (event.getNewValue().length() <= 60) {
+                    Client client = event.getRowValue();
+                    client.setDni(event.getNewValue());
+                    ClientDAO.build().update(client);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Error, el campo no puede superar los 50 caracteres");
+                    alert.show();
+                }
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Error, el valor ingresado no es un número válido");
+                alert.show();
+            }
+        });
+        colEmail.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getEmail()));
+        colEmail.setCellFactory(TextFieldTableCell.forTableColumn());
+        colSurname.setOnEditCommit(event -> {
+            try {
+                if (event.getNewValue().equals(event.getOldValue())) {
+                    return;
+                }
+
+                if (event.getNewValue().length() <= 60) {
+                    Client client = event.getRowValue();
+                    client.setEmail(event.getNewValue());
+                    ClientDAO.build().update(client);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Error, el campo no puede superar los 50 caracteres");
+                    alert.show();
+                }
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Error, el valor ingresado no es un número válido");
+                alert.show();
+            }
+        });
+        colSex.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getSex()));
+        colSex.setCellFactory(TextFieldTableCell.forTableColumn());
+        colSex.setOnEditCommit(event -> {
+            try {
+                if (event.getNewValue().equals(event.getOldValue())) {
+                    return;
+                }
+
+                if (event.getNewValue().length() <= 60) {
+                    Client client = event.getRowValue();
+                    client.setSex(event.getNewValue());
+                    ClientDAO.build().update(client);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Error, el campo no puede superar los 50 caracteres");
+                    alert.show();
+                }
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Error, el valor ingresado no es un número válido");
                 alert.show();
             }
         });
@@ -121,14 +219,15 @@ public class MainController extends Controller implements Initializable {
     public void openAddClient() throws Exception {
             //App.currentController.changeScene(Scenes.ADDCLIENT, null);
         App.currentController.openModal(Scenes.ADDCLIENT, "Agregando cliente...", this, null);
+    }
+    public void openShowMachines() throws Exception {
+        App.currentController.changeScene(Scenes.SHOWMACHINES, null);
+    }
+    public void openAddMachineClient() throws Exception {
+        App.currentController.changeScene(Scenes.ADDMACHINETOCLIENT, null);
+    }
 
-    }
-    public void openAddRoom() throws Exception {
-        App.currentController.openModal(Scenes.ADDROOM, "Agregando sala...", this, null);
-    }
-    public void openAddMachine() throws Exception {
-        App.currentController.openModal(Scenes.ADDMACHINE, "Agregando maquina...", this, null);
-    }
+
 
 
     public void saveClient(Client newClient)  {
@@ -136,6 +235,3 @@ public class MainController extends Controller implements Initializable {
         this.clientList.add(newClient);
     }
 }
-
-
-

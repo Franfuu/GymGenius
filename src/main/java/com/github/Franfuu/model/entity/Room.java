@@ -4,9 +4,10 @@ package com.github.Franfuu.model.entity;
 import java.util.List;
 import java.util.Objects;
 
-public class Room {
+public class Room extends Machine {
     private int Code;
     private List<Machine> machines;
+
     public Room() {
 
     }
@@ -52,4 +53,6 @@ public class Room {
                 ", machines=" + machines +
                 '}';
     }
+
+
 }

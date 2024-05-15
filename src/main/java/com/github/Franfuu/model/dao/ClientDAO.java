@@ -38,6 +38,7 @@ public class ClientDAO {
                     pst.setString(4, entity.getPassword());
                     pst.setString(5, entity.getDni());
                     pst.setString(6, entity.getSex());
+
                     pst.executeUpdate();
                 }
             }
@@ -57,6 +58,7 @@ public class ClientDAO {
             pst.setString(4, entity.getPassword());
             pst.setString(5, entity.getDni());
             pst.setString(6, entity.getSex());
+            pst.setString(7, String.valueOf(entity.getCode()));
             pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -147,8 +149,9 @@ public class ClientDAO {
         }
         return result;
     }
-    /*
+
     public static void insertMachineFromClient(int clientCode, int machineCode) throws SQLException {
+        if (clientCode != 0 || machineCode != 0) return;
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERTNM)) {
             pst.setInt(1, clientCode);
             pst.setInt(2, machineCode);
@@ -159,6 +162,7 @@ public class ClientDAO {
     }
 
     public static void deleteMachineFromClient(int clientCode) throws SQLException {
+
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETENM)) {
             pst.setInt(1, clientCode);
             pst.executeUpdate();
@@ -166,7 +170,7 @@ public class ClientDAO {
             e.printStackTrace();
         }
     }
-*/
+
 
     public void close() throws IOException {
 
@@ -174,7 +178,7 @@ public class ClientDAO {
 }
 
 class ClientLazy extends Client {
-    private static final String FINDMACHINESBYCLIENTS = "SELECT * FROM client_machine WHERE ClientCode=?";
+    private static final String FINDMACHINESBYCLIENTS = "INSERT INTO ClientMachine (ClientCode, MachineCode) VALUES (?, ?)";
 
     public ClientLazy() {
 
@@ -194,8 +198,9 @@ class ClientLazy extends Client {
                 try (ResultSet res = pst.executeQuery()) {
                     while (res.next()) {
                         Client c = new Client();
+                        Machine m = new Machine();
                         c.setCode(res.getInt("ClientCode"));
-
+                        m.setCode(res.getInt("MachineCode"));
                         result.add(c);
                     }
                     res.close();

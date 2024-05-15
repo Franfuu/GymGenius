@@ -50,7 +50,7 @@ public class AddRoomController extends Controller implements Initializable {
 
         // Guardar la habitación en la base de datos
         roomDAO.save(room);
-        App.currentController.changeScene(Scenes.MAINPAGE, null);
+        App.currentController.changeScene(Scenes.SHOWMACHINES, null);
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 

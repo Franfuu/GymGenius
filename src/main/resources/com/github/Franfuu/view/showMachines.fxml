@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.Franfuu.view.ShowEditClientMachineController">
+   <children>
+      <TableView fx:id="tableMachine" layoutX="53.0" layoutY="136.0" prefHeight="214.0" prefWidth="494.0">
+         <columns>
+            <TableColumn fx:id="colRoom" prefWidth="53.60003662109375" text="Sala" />
+            <TableColumn fx:id="colCodeMachine" prefWidth="191.199951171875" text="Codigo Maquina" />
+            <TableColumn fx:id="colMachine" prefWidth="249.60003662109375" text="Maquinas " />
+         </columns>
+      </TableView>
+      <ImageView fitHeight="110.0" fitWidth="119.0">
+         <image>
+            <Image url="@_0e6cba00-2feb-4232-9ad3-a3335a49bb12.jpeg" />
+         </image>
+      </ImageView>
+      <Button fx:id="addMachine" layoutX="149.0" layoutY="35.0" mnemonicParsing="false" onAction="#openAddMachine" prefHeight="39.0" prefWidth="119.0" text="Añadir maquinas " />
+      <Button fx:id="addRoom" layoutX="302.0" layoutY="35.0" mnemonicParsing="false" onAction="#openAddRoom" prefHeight="39.0" prefWidth="119.0" text="Añadir maquinas " />
+      <ImageView fx:id="exitButton" fitHeight="49.0" fitWidth="47.0" layoutX="524.0" layoutY="31.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@WhhExitalt.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

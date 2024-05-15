@@ -2,6 +2,7 @@ package com.github.Franfuu.model.dao;
 
 import com.github.Franfuu.model.connection.ConnectionMariaDB;
 import com.github.Franfuu.model.entity.Machine;
+import com.github.Franfuu.model.entity.Room;
 
 import java.io.IOException;
 import java.sql.*;
@@ -26,7 +27,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
             pst.executeUpdate();
             try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    entity.setCode(generatedKeys.getInt(1)); // Set the generated machine code
+                    entity.setCode(generatedKeys.getInt(1));
                 }
             }
         }
@@ -34,7 +35,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
     }
 
     public Machine update(Machine entity) throws SQLException {
-        if (entity == null) return null;
+        if (entity == null || entity.getRoom() == null) return null;
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
             pst.setInt(1, entity.getRoom().getCode());
             pst.setString(2, entity.getMachineType());
@@ -43,6 +44,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
         }
         return entity;
     }
+
 
     public Machine delete(Machine entity) throws SQLException {
         if (entity == null) return null;
@@ -61,7 +63,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
                 if (res.next()) {
                     result = new Machine();
                     result.setCode(res.getInt("MachineCode"));
-                    result.getRoom().setCode(res.getInt("RoomCode"));
+                    result.setRoom(RoomDAO.findByRoomCode(res.getInt("RoomCode")));
                     result.setMachineType(res.getString("MachineType"));
                 }
             }
@@ -76,7 +78,8 @@ public class MachineDAO implements DAO<Machine, Integer> {
                 while (res.next()) {
                     Machine machine = new Machine();
                     machine.setCode(res.getInt("MachineCode"));
-                    machine.getRoom().setCode(res.getInt("RoomCode"));
+                    //Eager
+                    machine.setRoom(RoomDAO.findByRoomCode(res.getInt("RoomCode")));
                     machine.setMachineType(res.getString("MachineType"));
                     result.add(machine);
                 }

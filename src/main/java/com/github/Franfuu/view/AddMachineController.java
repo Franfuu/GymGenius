@@ -58,7 +58,7 @@ public class AddMachineController extends Controller implements Initializable {
         cdao.save(machine);
 
         if (room == null) { rdao.save(machine.getRoom()); }
-        App.currentController.changeScene(Scenes.MAINPAGE, null);
+        App.currentController.changeScene(Scenes.SHOWMACHINES, null);
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 }

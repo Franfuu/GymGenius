@@ -75,10 +75,8 @@ public class RoomDAO implements DAO<Room, Integer> {
                     ResultSet resMachines = pstMachine.executeQuery();
                     while (resMachines.next()) {
                         Machine machine = new Machine();
-                        // Aquí debes configurar las propiedades de la máquina
                         machine.setCode(resMachines.getInt("MachineCode"));
                         machine.setMachineType(resMachines.getString("MachineType"));
-                        // Agregar la máquina a la lista de máquinas
                         machines.add(machine);
                     }
                     resMachines.close();

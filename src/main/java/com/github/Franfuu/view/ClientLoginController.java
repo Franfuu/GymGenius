@@ -26,31 +26,12 @@ public class ClientLoginController extends Controller implements Initializable {
     private TextField clientPassword;
 
     private ClientDAO clientDAO = new ClientDAO();
-/*
+
     @FXML
     public void login() throws IOException {
-        String email = clientEmail.getText();
-        String password = clientPassword.getText();
 
-        Client clientLogin = ClientDAO.build().findByClientCode(Integer.valueOf(email));
-
-        if (clientLogin != null) {
-            if (password.equals(clientLogin.getPassword()) && email.equals(clientLogin.getEmail())) {
-                Session.getInstance().logIn(clientLogin);
-                //App.start("clientMachine");
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Contraseña invalida, introduzca una contraseña valida");
-                alert.show();
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Usuario incorrecto, introduzca bien el nombre de usuario");
-            alert.show();
-
-        }
     }
-*/
+
     @Override
     public void onOpen(Object input) throws Exception {
 
@@ -63,6 +44,25 @@ public class ClientLoginController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        String email = clientEmail.getText();
+        String password = clientPassword.getText();
 
+        // Verificar la autenticación del cliente con el DAO
+        ClientDAO clientDAO = new ClientDAO();
+        Client cliente = clientDAO.findByEmail(email);
+
+        if (cliente != null && cliente.getPassword().equals(password)) {
+            // Inicio de sesión exitoso, almacenar el cliente en la sesión
+            Session session = Session.getInstance();
+            session.logIn(cliente);
+            System.out.println("Inicio de sesión exitoso para el cliente: " + cliente.getName());
+            // Cerrar la ventana de inicio de sesión y abrir la ventana principal del cliente
+            // primaryStage.close();
+            // Abrir ventana principal del cliente
+            // openMainClienteWindow();
+        } else {
+            System.out.println("Inicio de sesión fallido. Email o contraseña incorrectos.");
+
+        }
     }
 }

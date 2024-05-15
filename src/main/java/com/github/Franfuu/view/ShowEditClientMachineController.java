@@ -19,6 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -68,9 +69,8 @@ public class ShowEditClientMachineController extends Controller implements Initi
         tableMachine.setEditable(true);
         colCodeMachine.setCellValueFactory(machine -> new SimpleIntegerProperty(machine.getValue().getCode()).asObject());
 
-
         colRoom.setCellValueFactory(machine -> new SimpleIntegerProperty(machine.getValue().getRoom().getCode()).asObject());
-
+        colRoom.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         colRoom.setOnEditCommit(event -> {
             try {
                 if (event.getNewValue().equals(event.getOldValue())) {

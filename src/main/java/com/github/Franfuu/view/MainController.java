@@ -72,6 +72,17 @@ public class MainController extends Controller implements Initializable {
     public void onClose(Object output) {
 
     }
+    private boolean validateDNI(String dni) {
+        // Expresión regular para validar el DNI
+        String dniPattern = "\\d{8}[a-zA-Z]";
+        return dni.matches(dniPattern);
+    }
+
+    private boolean validateEmail(String email) {
+        // Expresión regular para validar el correo electrónico
+        String emailPattern = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        return email.matches(emailPattern);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -148,6 +159,14 @@ public class MainController extends Controller implements Initializable {
         colDNI.setCellFactory(TextFieldTableCell.forTableColumn());
         colDNI.setOnEditCommit(event -> {
             try {
+                if (event.getNewValue().trim().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "El DNI no puede estar vacío.");
+                    return;
+                }
+                if (!validateDNI(event.getNewValue())) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "El formato del DNI no es válido.");
+                    return;
+                }
                 if (event.getNewValue().equals(event.getOldValue())) {
                     return;
                 }
@@ -157,20 +176,24 @@ public class MainController extends Controller implements Initializable {
                     client.setDni(event.getNewValue());
                     ClientDAO.build().update(client);
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Error, el campo no puede superar los 50 caracteres");
-                    alert.show();
+                    showAlert(Alert.AlertType.ERROR, "Error", "El DNI no puede superar los 9 caracteres incluyendo la letra.");
                 }
             } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Error, el valor ingresado no es un número válido");
-                alert.show();
+                showAlert(Alert.AlertType.ERROR, "Error", "El valor ingresado no es válido.");
             }
         });
         colEmail.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getEmail()));
         colEmail.setCellFactory(TextFieldTableCell.forTableColumn());
-        colSurname.setOnEditCommit(event -> {
+        colEmail.setOnEditCommit(event -> {
             try {
+                if (event.getNewValue().trim().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "El correo electrónico no puede estar vacío.");
+                    return;
+                }
+                if (!validateEmail(event.getNewValue())) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "El formato del correo electrónico no es válido.");
+                    return;
+                }
                 if (event.getNewValue().equals(event.getOldValue())) {
                     return;
                 }
@@ -180,14 +203,10 @@ public class MainController extends Controller implements Initializable {
                     client.setEmail(event.getNewValue());
                     ClientDAO.build().update(client);
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Error, el campo no puede superar los 50 caracteres");
-                    alert.show();
+                    showAlert(Alert.AlertType.ERROR, "Error", "El correo electrónico no puede superar los 60 caracteres.");
                 }
             } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Error, el valor ingresado no es un número válido");
-                alert.show();
+                showAlert(Alert.AlertType.ERROR, "Error", "El valor ingresado no es válido.");
             }
         });
         colSex.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getSex()));
@@ -213,7 +232,6 @@ public class MainController extends Controller implements Initializable {
                 alert.show();
             }
         });
-
     }
 
     public void openAddClient() throws Exception {
@@ -226,10 +244,13 @@ public class MainController extends Controller implements Initializable {
     public void openAddMachineClient() throws Exception {
         App.currentController.changeScene(Scenes.ADDMACHINETOCLIENT, null);
     }
-
-
-
-
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
     public void saveClient(Client newClient)  {
         ClientDAO.build().save(newClient);
         this.clientList.add(newClient);

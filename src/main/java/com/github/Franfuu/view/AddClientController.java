@@ -65,32 +65,31 @@ public class AddClientController extends Controller implements Initializable {
 
             if (name.isEmpty() || surname.isEmpty() || dni.isEmpty() || email.isEmpty() || password.isEmpty() || sex.isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, "Campos Vacíos", "Por favor, complete todos los campos.");
-                return;
+            } else {
+                // Validar DNI
+                if (!validateDNI(dni)) {
+                    showAlert(Alert.AlertType.ERROR, "Error en DNI", "El formato del DNI no es válido.");
+                } else {
+                    // Validar correo electrónico
+                    if (!validateEmail(email)) {
+                        showAlert(Alert.AlertType.ERROR, "Error en Correo Electrónico", "El formato del correo electrónico no es válido.");
+                    } else {
+                        // Guardar el cliente
+                        Client client = new Client( name, surname, email, password, dni, sex);
+                        ClientDAO cdao = new ClientDAO();
+                        cdao.save(client);
+                        showAlert(Alert.AlertType.INFORMATION, "Cliente Agregado", "El cliente se ha agregado correctamente.");
+                        App.currentController.changeScene(Scenes.MAINPAGE, null);
+                        ((Node) (event.getSource())).getScene().getWindow().hide();
+                    }
+                }
             }
-
-            // Validar DNI
-            if (!validateDNI(dni)) {
-                showAlert(Alert.AlertType.ERROR, "Error en DNI", "El formato del DNI no es válido.");
-                return;
-            }
-
-            // Validar correo electrónico
-            if (!validateEmail(email)) {
-                showAlert(Alert.AlertType.ERROR, "Error en Correo Electrónico", "El formato del correo electrónico no es válido.");
-                return;
-            }
-
-            Client client = new Client(name, surname, email, password, dni, sex);
-            ClientDAO cdao = new ClientDAO();
-            cdao.save(client);
-            showAlert(Alert.AlertType.INFORMATION, "Cliente Agregado", "El cliente se ha agregado correctamente.");
-            App.currentController.changeScene(Scenes.MAINPAGE, null);
-            ((Node) (event.getSource())).getScene().getWindow().hide();
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error al Guardar", "Hubo un error al intentar guardar el cliente.");
         }
     }
+
     private boolean validateEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         return email.matches(emailRegex);

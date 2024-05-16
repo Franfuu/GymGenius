@@ -12,15 +12,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -87,6 +85,22 @@ public class MainController extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         tableInfo.setEditable(true);
+        tableInfo.setRowFactory(tv -> {
+            TableRow<Client> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                Client client = tableInfo.getSelectionModel().getSelectedItem();
+                if (event.getClickCount() == 3 && (! row.isEmpty()) ) {
+                    Client clients = row.getItem();
+                    try {
+                        App.currentController.changeScene(Scenes.ADDMACHINETOCLIENT,client.getMachines());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            });
+            return row ;
+        });
         colCode.setCellValueFactory(client -> new SimpleStringProperty(String.valueOf(client.getValue().getCode())));
         //colCode.setCellFactory(TextFieldTableCell.forTableColumn());
         colCode.setOnEditCommit(event -> {
@@ -158,57 +172,77 @@ public class MainController extends Controller implements Initializable {
         colDNI.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getDni()));
         colDNI.setCellFactory(TextFieldTableCell.forTableColumn());
         colDNI.setOnEditCommit(event -> {
+            boolean shouldUpdate = true;
             try {
-                if (event.getNewValue().trim().isEmpty()) {
+                String newValue = event.getNewValue().trim();
+
+                if (newValue.isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El DNI no puede estar vacío.");
-                    return;
-                }
-                if (!validateDNI(event.getNewValue())) {
-                    showAlert(Alert.AlertType.ERROR, "Error", "El formato del DNI no es válido.");
-                    return;
-                }
-                if (event.getNewValue().equals(event.getOldValue())) {
-                    return;
+                    shouldUpdate = false;
                 }
 
-                if (event.getNewValue().length() <= 60) {
-                    Client client = event.getRowValue();
-                    client.setDni(event.getNewValue());
-                    ClientDAO.build().update(client);
-                } else {
+                else if (!validateDNI(newValue)) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "El formato del DNI no es válido.");
+                    shouldUpdate = false;
+                }
+
+                else if (newValue.equals(event.getOldValue())) {
+                    shouldUpdate = false;
+                }
+
+                // Verificar longitud del DNI
+                else if (newValue.length() > 9) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El DNI no puede superar los 9 caracteres incluyendo la letra.");
+                    shouldUpdate = false;
+                }
+
+                if (shouldUpdate) {
+                    Client client = event.getRowValue();
+                    client.setDni(newValue);
+                    ClientDAO.build().update(client);
                 }
             } catch (NumberFormatException e) {
                 showAlert(Alert.AlertType.ERROR, "Error", "El valor ingresado no es válido.");
+                shouldUpdate = false;
             }
         });
         colEmail.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getEmail()));
         colEmail.setCellFactory(TextFieldTableCell.forTableColumn());
         colEmail.setOnEditCommit(event -> {
+            boolean shouldUpdate = true;
             try {
-                if (event.getNewValue().trim().isEmpty()) {
+                String newValue = event.getNewValue().trim();
+
+                if (newValue.isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El correo electrónico no puede estar vacío.");
-                    return;
-                }
-                if (!validateEmail(event.getNewValue())) {
-                    showAlert(Alert.AlertType.ERROR, "Error", "El formato del correo electrónico no es válido.");
-                    return;
-                }
-                if (event.getNewValue().equals(event.getOldValue())) {
-                    return;
+                    shouldUpdate = false;
                 }
 
-                if (event.getNewValue().length() <= 60) {
-                    Client client = event.getRowValue();
-                    client.setEmail(event.getNewValue());
-                    ClientDAO.build().update(client);
-                } else {
+                else if (!validateEmail(newValue)) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "El formato del correo electrónico no es válido.");
+                    shouldUpdate = false;
+                }
+
+                else if (newValue.equals(event.getOldValue())) {
+                    shouldUpdate = false;
+                }
+
+                else if (newValue.length() > 60) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El correo electrónico no puede superar los 60 caracteres.");
+                    shouldUpdate = false;
+                }
+
+                if (shouldUpdate) {
+                    Client client = event.getRowValue();
+                    client.setEmail(newValue);
+                    ClientDAO.build().update(client);
                 }
             } catch (NumberFormatException e) {
                 showAlert(Alert.AlertType.ERROR, "Error", "El valor ingresado no es válido.");
+                shouldUpdate = false;
             }
         });
+
         colSex.setCellValueFactory(client -> new SimpleStringProperty(client.getValue().getSex()));
         colSex.setCellFactory(TextFieldTableCell.forTableColumn());
         colSex.setOnEditCommit(event -> {

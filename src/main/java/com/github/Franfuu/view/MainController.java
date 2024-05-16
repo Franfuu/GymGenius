@@ -32,9 +32,15 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private Button addClient;
     @FXML
+    private Button deleteClient;
+    @FXML
     private Button showMachines;
     @FXML
-    private Button addRoom;
+    private Button showMachinesToClient;
+    @FXML
+    private Button addMachineToClient;
+    @FXML
+    private Button deleteMachineToClient;
     @FXML
     private TableView<Client> tableInfo;
     @FXML
@@ -89,7 +95,7 @@ public class MainController extends Controller implements Initializable {
             TableRow<Client> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 Client client = tableInfo.getSelectionModel().getSelectedItem();
-                if (event.getClickCount() == 3 && (! row.isEmpty()) ) {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Client clients = row.getItem();
                     try {
                         App.currentController.changeScene(Scenes.ADDMACHINETOCLIENT,client.getMachines());
@@ -272,11 +278,18 @@ public class MainController extends Controller implements Initializable {
             //App.currentController.changeScene(Scenes.ADDCLIENT, null);
         App.currentController.openModal(Scenes.ADDCLIENT, "Agregando cliente...", this, null);
     }
+    public void openDeleteClient() throws Exception {
+        //App.currentController.changeScene(Scenes.ADDCLIENT, null);
+        App.currentController.openModal(Scenes.DELETECLIENT, "Eliminando cliente...", this, null);
+    }
     public void openShowMachines() throws Exception {
         App.currentController.changeScene(Scenes.SHOWMACHINES, null);
     }
     public void openAddMachineClient() throws Exception {
         App.currentController.changeScene(Scenes.ADDMACHINETOCLIENT, null);
+    }
+    public void openDeleteMachineClient() throws Exception {
+        App.currentController.changeScene(Scenes.DELETEMACHINETOCLIENT, null);
     }
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
@@ -285,8 +298,5 @@ public class MainController extends Controller implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    public void saveClient(Client newClient)  {
-        ClientDAO.build().save(newClient);
-        this.clientList.add(newClient);
-    }
+
 }

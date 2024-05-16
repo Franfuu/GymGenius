@@ -48,7 +48,6 @@ public class AddMachineController extends Controller implements Initializable {
         String machineType = fieldName.getText().trim();
         String roomCodeText = fieldRoom.getText().trim();
 
-
         if (machineType.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "El campo del tipo de máquina no puede estar vacío.");
         } else if (roomCodeText.isEmpty()) {
@@ -57,23 +56,18 @@ public class AddMachineController extends Controller implements Initializable {
             try {
                 int roomCode = Integer.parseInt(roomCodeText);
 
-
                 RoomDAO rdao = new RoomDAO();
                 Room room = rdao.findByRoomCode(roomCode);
                 if (room == null) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El código de habitación no se encuentra en la base de datos.");
                 } else {
-
                     Machine machine = new Machine(room, machineType);
                     MachineDAO cdao = new MachineDAO();
                     cdao.save(machine);
 
-
                     if (room == null) {
                         rdao.save(machine.getRoom());
                     }
-
-
                     App.currentController.changeScene(Scenes.SHOWMACHINES, null);
                     ((Node) (event.getSource())).getScene().getWindow().hide();
                 }

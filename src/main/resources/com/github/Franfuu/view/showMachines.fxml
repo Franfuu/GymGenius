@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.Franfuu.view.ShowEditClientMachineController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.Franfuu.view.ShowEditMachinesController">
    <children>
       <TableView fx:id="tableMachine" layoutX="53.0" layoutY="136.0" prefHeight="214.0" prefWidth="494.0">
          <columns>
@@ -23,7 +23,7 @@
       </ImageView>
       <Button fx:id="addMachine" layoutX="132.0" layoutY="15.0" mnemonicParsing="false" onAction="#openAddMachine" prefHeight="39.0" prefWidth="119.0" text="Añadir maquinas " />
       <Button fx:id="addRoom" layoutX="316.0" layoutY="15.0" mnemonicParsing="false" onAction="#openAddRoom" prefHeight="39.0" prefWidth="104.0" text="Añadir Salas" />
-      <ImageView fx:id="exitButton" fitHeight="49.0" fitWidth="47.0" layoutX="524.0" layoutY="31.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="exitButton" fitHeight="49.0" fitWidth="47.0" layoutX="511.0" layoutY="40.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@WhhExitalt.png" />
          </image>

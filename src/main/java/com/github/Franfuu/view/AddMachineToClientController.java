@@ -15,14 +15,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-import java.io.IOException;
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
+
 
 public class AddMachineToClientController extends Controller implements Initializable {
 
@@ -109,12 +109,8 @@ public class AddMachineToClientController extends Controller implements Initiali
             alert.setContentText("No se ha seleccionado nada en la base de datos");
             alert.show();
         }
-        /*if (Client_MachineDAO.entryExists(clientCode, machineCode)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("La entrada ya existe");
-            alert.show();
-        }*/
-
     }
+
+
 }
 

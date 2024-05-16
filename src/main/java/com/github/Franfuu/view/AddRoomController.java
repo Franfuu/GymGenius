@@ -41,38 +41,39 @@ public class AddRoomController extends Controller implements Initializable {
 
     }
     public void onSave(Event event) throws Exception {
-        String roomCodeText = fieldRoom.getText();
+        String roomCodeText = fieldRoom.getText().trim();
 
-        if (roomCodeText.trim().isEmpty()) {
+        if (roomCodeText.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "El campo no puede estar vacío.");
-            return;
-        }
-        int roomCode;
-        try {
-            roomCode = Integer.parseInt(roomCodeText);
+        } else {
+            try {
+                int roomCode = Integer.parseInt(roomCodeText);
 
 
-            if (roomCode > 9999) {
-                showAlert(Alert.AlertType.ERROR, "Error", "El valor no puede ser mayor que 9999.");
-                return;
+                if (roomCode > 9999) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "El valor no puede ser mayor que 9999.");
+                } else {
+                    RoomDAO roomDAO = new RoomDAO();
+
+
+                    if (roomDAO.findByRoomCode(roomCode) != null) {
+                        showAlert(Alert.AlertType.ERROR, "Error", "El código de habitación ya existe en la base de datos.");
+                    } else {
+                        // Guardar la habitación
+                        Room room = new Room(roomCode);
+                        roomDAO.save(room);
+
+
+                        App.currentController.changeScene(Scenes.SHOWMACHINES, null);
+                        ((Node) (event.getSource())).getScene().getWindow().hide();
+                    }
+                }
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Error", "El valor ingresado no es válido.");
             }
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "El valor ingresado no es válido.");
-            return;
         }
-
-        Room room = new Room(roomCode);
-        RoomDAO roomDAO = new RoomDAO();
-
-        if (roomDAO.findByRoomCode(roomCode) != null) {
-            showAlert(Alert.AlertType.ERROR, "Error", "El código de habitación ya existe en la base de datos.");
-            return;
-        }
-
-        roomDAO.save(room);
-        App.currentController.changeScene(Scenes.SHOWMACHINES, null);
-        ((Node)(event.getSource())).getScene().getWindow().hide();
     }
+
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

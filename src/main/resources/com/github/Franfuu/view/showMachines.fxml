@@ -21,12 +21,14 @@
             <Image url="@_0e6cba00-2feb-4232-9ad3-a3335a49bb12.jpeg" />
          </image>
       </ImageView>
-      <Button fx:id="addMachine" layoutX="149.0" layoutY="35.0" mnemonicParsing="false" onAction="#openAddMachine" prefHeight="39.0" prefWidth="119.0" text="Añadir maquinas " />
-      <Button fx:id="addRoom" layoutX="302.0" layoutY="35.0" mnemonicParsing="false" onAction="#openAddRoom" prefHeight="39.0" prefWidth="119.0" text="Añadir maquinas " />
+      <Button fx:id="addMachine" layoutX="132.0" layoutY="15.0" mnemonicParsing="false" onAction="#openAddMachine" prefHeight="39.0" prefWidth="119.0" text="Añadir maquinas " />
+      <Button fx:id="addRoom" layoutX="316.0" layoutY="15.0" mnemonicParsing="false" onAction="#openAddRoom" prefHeight="39.0" prefWidth="104.0" text="Añadir Salas" />
       <ImageView fx:id="exitButton" fitHeight="49.0" fitWidth="47.0" layoutX="524.0" layoutY="31.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@WhhExitalt.png" />
          </image>
       </ImageView>
+      <Button fx:id="deleteMachine" layoutX="132.0" layoutY="70.0" mnemonicParsing="false" onAction="#openDeleteMachine" prefHeight="39.0" prefWidth="119.0" text="Eliminar maquina" />
+      <Button fx:id="deleteRoom" layoutX="316.0" layoutY="70.0" mnemonicParsing="false" onAction="#openDeleteRoom" prefHeight="39.0" prefWidth="104.0" text="Eliminar Sala" />
    </children>
 </AnchorPane>

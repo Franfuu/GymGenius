@@ -19,7 +19,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
     public MachineDAO() {
     }
 
-    public static Machine save(Machine entity) throws SQLException {
+    public  Machine save(Machine entity) throws SQLException {
         if (entity == null) return null;
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             pst.setInt(1, entity.getRoom().getCode());

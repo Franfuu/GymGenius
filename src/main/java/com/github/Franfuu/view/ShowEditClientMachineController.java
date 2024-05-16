@@ -36,6 +36,10 @@ public class ShowEditClientMachineController extends Controller implements Initi
     @FXML
     private Button addRoom;
     @FXML
+    private Button deleteMachine;
+    @FXML
+    private Button deleteRoom;
+    @FXML
     private TableView<Machine> tableMachine;
     @FXML
     private TableColumn<Machine, String> colMachine;
@@ -78,7 +82,7 @@ public class ShowEditClientMachineController extends Controller implements Initi
                 }
                 Machine machine = MachineDAO.findByMachineCode(event.getRowValue().getCode());
                 Room room = machine.getRoom();
-                if (event.getNewValue().longValue() <= 60) {
+                if (event.getNewValue().longValue() <= 50) {
                     room.setCode(Integer.parseInt(String.valueOf(event.getNewValue())));
                     MachineDAO.build().update(machine);
                 } else {
@@ -122,9 +126,14 @@ public class ShowEditClientMachineController extends Controller implements Initi
     public void openAddRoom() throws Exception {
         App.currentController.openModal(Scenes.ADDROOM, "Agregando sala...", this, null);
     }
-
     public void openAddMachine() throws Exception {
         App.currentController.openModal(Scenes.ADDMACHINE, "Agregando maquina...", this, null);
+    }
+    public void openDeleteMachine() throws Exception {
+        App.currentController.openModal(Scenes.ADDMACHINE, "Agregando maquina...", this, null);
+    }
+    public void openDeleteRoom() throws Exception {
+        App.currentController.openModal(Scenes.ADDROOM, "Agregando sala...", this, null);
     }
 
 

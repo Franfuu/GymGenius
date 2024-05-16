@@ -43,7 +43,6 @@ public class ClientMachineController extends Controller implements Initializable
     @Override
     public void onOpen(Object input) throws Exception {
         List<Machine> machines = MachineDAO.findAll();
-        System.out.println(machines);
         this.machineList = FXCollections.observableArrayList(machines);
         tableMachine.setItems(this.machineList);
     }

@@ -178,7 +178,7 @@ public class ClientDAO {
 }
 
 class ClientLazy extends Client {
-    private static final String FINDMACHINESBYCLIENTS = "INSERT INTO ClientMachine (ClientCode, MachineCode) VALUES (?, ?)";
+    private static final String FINDMACHINESBYCLIENTS = "SELECT * FROM machine m, client_machine cm, client c WHERE m.MachineCode = cm.MachineCode AND cm.ClientCode = c.ClientCode AND c.ClientCode = ?;";
 
     public ClientLazy() {
 
@@ -198,12 +198,15 @@ class ClientLazy extends Client {
                 try (ResultSet res = pst.executeQuery()) {
                     while (res.next()) {
                         Client c = new Client();
-                        Machine m = new Machine();
                         c.setCode(res.getInt("ClientCode"));
-                        m.setCode(res.getInt("MachineCode"));
+                        c.setName(res.getString("Name"));
+                        c.setSurname(res.getString("Surname"));
+                        c.setEmail(res.getString("Email"));
+                        c.setPassword(res.getString("Password"));
+                        c.setDni(res.getString("DNI"));
+                        c.setSex(res.getString("Sex"));
                         result.add(c);
                     }
-                    res.close();
                 }
                 super.setMachines(result);
             } catch (SQLException e) {

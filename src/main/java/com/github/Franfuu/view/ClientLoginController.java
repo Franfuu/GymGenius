@@ -47,21 +47,17 @@ public class ClientLoginController extends Controller implements Initializable {
         String email = clientEmail.getText();
         String password = clientPassword.getText();
 
-        // Verificar la autenticación del cliente con el DAO
         ClientDAO clientDAO = new ClientDAO();
         Client cliente = clientDAO.findByEmail(email);
 
         if (cliente != null && cliente.getPassword().equals(password)) {
-            // Inicio de sesión exitoso, almacenar el cliente en la sesión
+
             Session session = Session.getInstance();
             session.logIn(cliente);
-            System.out.println("Inicio de sesión exitoso para el cliente: " + cliente.getName());
-            // Cerrar la ventana de inicio de sesión y abrir la ventana principal del cliente
-            // primaryStage.close();
-            // Abrir ventana principal del cliente
-            // openMainClienteWindow();
+
+
         } else {
-            System.out.println("Inicio de sesión fallido. Email o contraseña incorrectos.");
+
 
         }
     }

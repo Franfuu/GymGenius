@@ -2,7 +2,6 @@ package com.github.Franfuu.model.dao;
 
 import com.github.Franfuu.model.connection.ConnectionMariaDB;
 import com.github.Franfuu.model.entity.Machine;
-import com.github.Franfuu.model.entity.Room;
 
 import java.io.IOException;
 import java.sql.*;
@@ -46,14 +45,16 @@ public class MachineDAO implements DAO<Machine, Integer> {
     }
 
 
-    public Machine delete(Machine entity) throws SQLException {
-        if (entity == null) return null;
+
+    public boolean delete(int machineCode) throws SQLException {
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
-            pst.setInt(1, entity.getCode());
-            pst.executeUpdate();
+            pst.setInt(1, machineCode);
+            int rowsAffected = pst.executeUpdate();
+
+            return rowsAffected > 0;
         }
-        return entity;
     }
+
 
     public static Machine findByMachineCode(Integer code) throws SQLException {
         Machine result = null;

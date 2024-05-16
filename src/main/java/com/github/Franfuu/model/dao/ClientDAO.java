@@ -15,9 +15,7 @@ public class ClientDAO {
     private static final String INSERT = "INSERT INTO client ( Name, Surname, Email, Password, DNI, Sex) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE client SET Name=?, Surname=?, Email=?, Password=?, DNI=?, Sex=? WHERE ClientCode=?";
     private static final String DELETE = "DELETE FROM client WHERE ClientCode=?";
-    private static final String FINDBYEMAIL ="SELECT * FROM client WHERE Email=?";
-    private static final String INSERTNM = "INSERT INTO client_machine (ClientCode, MachineCode) VALUES (?, ?)";
-    private static final String DELETENM = "DELETE FROM client_machine WHERE ClientCode=?";
+    private static final String FINDBYEMAIL = "SELECT * FROM client WHERE Email=?";
 
     private static Connection conn;
 
@@ -71,17 +69,13 @@ public class ClientDAO {
     }
 
 
-    public Client delete(Client entity) {
-        if (entity != null) {
-            try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
-                pst.setInt(1, entity.getCode());
-                pst.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                entity = null;
-            }
+    public boolean delete(int clientCode) throws SQLException {
+        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
+            pst.setInt(1, clientCode);
+            int rowsAffected = pst.executeUpdate();
+
+            return rowsAffected > 0;
         }
-        return entity;
     }
 
 
@@ -150,28 +144,6 @@ public class ClientDAO {
         return result;
     }
 
-    public static void insertMachineFromClient(int clientCode, int machineCode) throws SQLException {
-        if (clientCode != 0 || machineCode != 0) return;
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERTNM)) {
-            pst.setInt(1, clientCode);
-            pst.setInt(2, machineCode);
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void deleteMachineFromClient(int clientCode) throws SQLException {
-
-        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETENM)) {
-            pst.setInt(1, clientCode);
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public void close() throws IOException {
 
     }
@@ -184,8 +156,8 @@ class ClientLazy extends Client {
 
     }
 
-    public ClientLazy( String name, String surname, String email, String password, String dni, String sex) {
-        super( name, surname, email, password, dni, sex);
+    public ClientLazy(String name, String surname, String email, String password, String dni, String sex) {
+        super(name, surname, email, password, dni, sex);
     }
 
     @Override

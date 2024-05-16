@@ -51,14 +51,15 @@ public class RoomDAO implements DAO<Room, Integer> {
         return result;
     }
 
-    public static Room delete(Room entity) throws SQLException {
-        if (entity == null || entity.getCode() == 0) return entity;
+    public static boolean delete(int roomCode) throws SQLException {
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
-            pst.setInt(1, entity.getCode());
-            pst.executeUpdate();
+            pst.setInt(1, roomCode);
+            int rowsAffected = pst.executeUpdate();
+
+            return rowsAffected > 0;
         }
-        return entity;
     }
+
 
     public static Room findByRoomCode(Integer code) {
         Room result = null;

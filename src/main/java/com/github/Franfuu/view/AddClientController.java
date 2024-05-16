@@ -41,7 +41,7 @@ public class AddClientController extends Controller implements Initializable {
 
     @Override
     public void onOpen(Object input) throws Exception {
-      //  this.controller = (MainController) input;
+
     }
 
     @Override

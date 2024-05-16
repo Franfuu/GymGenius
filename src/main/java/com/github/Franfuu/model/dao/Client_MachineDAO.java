@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 public class Client_MachineDAO {
     private static final String INSERTCM = "INSERT INTO client_machine (ClientCode, MachineCode) VALUES (?, ?)";
+    private static final String DELETEMC = "DELETE FROM client_machine WHERE ClientCode = ? AND MachineCode = ?;";
 
     private static Connection conn;
 
@@ -35,6 +36,16 @@ public class Client_MachineDAO {
             } else {
                 e.printStackTrace();
             }
+        }
+    }
+    public static boolean deleteMachineFromClient(int clientCode, int machineCode) throws SQLException {
+        Connection conn = ConnectionMariaDB.getConnection();
+        try (PreparedStatement pst = conn.prepareStatement(DELETEMC)) {
+            pst.setInt(1, clientCode);
+            pst.setInt(2, machineCode);
+            int rowsAffected = pst.executeUpdate();
+
+            return rowsAffected > 0;
         }
     }
 

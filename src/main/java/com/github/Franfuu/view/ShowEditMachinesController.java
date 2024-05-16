@@ -1,9 +1,7 @@
 package com.github.Franfuu.view;
 
 import com.github.Franfuu.App;
-import com.github.Franfuu.model.dao.ClientDAO;
 import com.github.Franfuu.model.dao.MachineDAO;
-import com.github.Franfuu.model.entity.Client;
 import com.github.Franfuu.model.entity.Machine;
 import com.github.Franfuu.model.entity.Room;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -26,7 +24,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ShowEditClientMachineController extends Controller implements Initializable {
+public class ShowEditMachinesController extends Controller implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
@@ -130,10 +128,10 @@ public class ShowEditClientMachineController extends Controller implements Initi
         App.currentController.openModal(Scenes.ADDMACHINE, "Agregando maquina...", this, null);
     }
     public void openDeleteMachine() throws Exception {
-        App.currentController.openModal(Scenes.ADDMACHINE, "Agregando maquina...", this, null);
+        App.currentController.openModal(Scenes.DELETEMACHINE, "Eliminando maquina...", this, null);
     }
     public void openDeleteRoom() throws Exception {
-        App.currentController.openModal(Scenes.ADDROOM, "Agregando sala...", this, null);
+        App.currentController.openModal(Scenes.DELETEROOM, "Eliminando sala...", this, null);
     }
 
 

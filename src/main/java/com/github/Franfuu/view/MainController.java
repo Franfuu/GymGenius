@@ -3,28 +3,20 @@ package com.github.Franfuu.view;
 import com.github.Franfuu.App;
 import com.github.Franfuu.model.dao.ClientDAO;
 import com.github.Franfuu.model.entity.Client;
-import com.github.Franfuu.utils.Session;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static com.github.Franfuu.view.AppController.loadFXML;
 
 public class MainController extends Controller implements Initializable {
     @FXML
@@ -76,6 +68,7 @@ public class MainController extends Controller implements Initializable {
     public void onClose(Object output) {
 
     }
+
     private boolean validateDNI(String dni) {
         // Expresión regular para validar el DNI
         String dniPattern = "\\d{8}[a-zA-Z]";
@@ -95,17 +88,16 @@ public class MainController extends Controller implements Initializable {
             TableRow<Client> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 Client client = tableInfo.getSelectionModel().getSelectedItem();
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    Client clients = row.getItem();
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     try {
-                        App.currentController.changeScene(Scenes.ADDMACHINETOCLIENT,client.getMachines());
+                        App.currentController.changeScene(Scenes.MACHINESTOCLIENT, client);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }
 
             });
-            return row ;
+            return row;
         });
         colCode.setCellValueFactory(client -> new SimpleStringProperty(String.valueOf(client.getValue().getCode())));
         //colCode.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -185,14 +177,10 @@ public class MainController extends Controller implements Initializable {
                 if (newValue.isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El DNI no puede estar vacío.");
                     shouldUpdate = false;
-                }
-
-                else if (!validateDNI(newValue)) {
+                } else if (!validateDNI(newValue)) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El formato del DNI no es válido.");
                     shouldUpdate = false;
-                }
-
-                else if (newValue.equals(event.getOldValue())) {
+                } else if (newValue.equals(event.getOldValue())) {
                     shouldUpdate = false;
                 }
 
@@ -222,18 +210,12 @@ public class MainController extends Controller implements Initializable {
                 if (newValue.isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El correo electrónico no puede estar vacío.");
                     shouldUpdate = false;
-                }
-
-                else if (!validateEmail(newValue)) {
+                } else if (!validateEmail(newValue)) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El formato del correo electrónico no es válido.");
                     shouldUpdate = false;
-                }
-
-                else if (newValue.equals(event.getOldValue())) {
+                } else if (newValue.equals(event.getOldValue())) {
                     shouldUpdate = false;
-                }
-
-                else if (newValue.length() > 60) {
+                } else if (newValue.length() > 60) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El correo electrónico no puede superar los 60 caracteres.");
                     shouldUpdate = false;
                 }
@@ -275,22 +257,28 @@ public class MainController extends Controller implements Initializable {
     }
 
     public void openAddClient() throws Exception {
-            //App.currentController.changeScene(Scenes.ADDCLIENT, null);
+        //App.currentController.changeScene(Scenes.ADDCLIENT, null);
         App.currentController.openModal(Scenes.ADDCLIENT, "Agregando cliente...", this, null);
     }
+
     public void openDeleteClient() throws Exception {
         //App.currentController.changeScene(Scenes.ADDCLIENT, null);
         App.currentController.openModal(Scenes.DELETECLIENT, "Eliminando cliente...", this, null);
     }
+
     public void openShowMachines() throws Exception {
         App.currentController.changeScene(Scenes.SHOWMACHINES, null);
     }
+
     public void openAddMachineClient() throws Exception {
-        App.currentController.changeScene(Scenes.ADDMACHINETOCLIENT, null);
+        App.currentController.openModal(Scenes.ADDMACHINETOCLIENT, "Agregando cliente a la maquina...", this, null);
     }
+
     public void openDeleteMachineClient() throws Exception {
-        App.currentController.changeScene(Scenes.DELETEMACHINETOCLIENT, null);
+        App.currentController.openModal(Scenes.DELETEMACHINETOCLIENT, "Eliminando maquina asociada...", this, null);
     }
+
+
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

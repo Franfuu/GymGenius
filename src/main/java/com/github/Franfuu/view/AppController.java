@@ -64,7 +64,7 @@ public class AppController extends Controller implements Initializable {
     }
 
     public void onOpen(Object input) throws Exception {
-       changeScene(Scenes.MAINPAGE, null);
+       changeScene(Scenes.WELCOME, null);
     }
 
     public void onClose(Object output) {

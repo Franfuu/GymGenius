@@ -2,23 +2,25 @@ package com.github.Franfuu.model.dao;
 
 import com.github.Franfuu.model.connection.ConnectionMariaDB;
 import com.github.Franfuu.model.entity.Machine;
+import com.github.Franfuu.model.entity.Room;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MachineDAO implements DAO<Machine, Integer> {
+public class MachineDAO {
     private static final String INSERT = "INSERT INTO Machine (RoomCode, MachineType) VALUES (?,?)";
     private static final String UPDATE = "UPDATE Machine SET RoomCode=?, MachineType=? WHERE MachineCode=?";
     private static final String FIND_BY_CODE = "SELECT MachineCode, RoomCode, MachineType FROM Machine WHERE MachineCode=?";
     private static final String DELETE = "DELETE FROM Machine WHERE MachineCode=?";
     private static final String FINDALL = "SELECT * FROM Machine";
+    private static final String FINDMACHINEBYCLIENT = "SELECT m.MachineCode, m.MachineType, m.RoomCode FROM Machine m JOIN Client_Machine cm ON m.MachineCode = cm.MachineCode WHERE cm.ClientCode = ?";
 
     public MachineDAO() {
     }
 
-    public  Machine save(Machine entity) throws SQLException {
+    public Machine save(Machine entity) throws SQLException {
         if (entity == null) return null;
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             pst.setInt(1, entity.getRoom().getCode());
@@ -33,7 +35,8 @@ public class MachineDAO implements DAO<Machine, Integer> {
         return entity;
     }
 
-    public Machine update(Machine entity) throws SQLException {
+
+    public Machine update(Machine entity) throws SQLException{
         if (entity == null || entity.getRoom() == null) return null;
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
             pst.setInt(1, entity.getRoom().getCode());
@@ -46,6 +49,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
 
 
 
+
     public boolean delete(int machineCode) throws SQLException {
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
             pst.setInt(1, machineCode);
@@ -54,6 +58,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
             return rowsAffected > 0;
         }
     }
+
 
 
     public static Machine findByMachineCode(Integer code) throws SQLException {
@@ -89,9 +94,31 @@ public class MachineDAO implements DAO<Machine, Integer> {
         return result;
 
     }
-    public void close() throws IOException {
-        // Not implemented for now
+
+    public static List<Machine> findByCode(int clientCode) {
+        List<Machine> machines = new ArrayList<>();
+
+        try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FINDMACHINEBYCLIENT)) {
+            pst.setInt(1, clientCode);
+            try (ResultSet res = pst.executeQuery()) {
+                while (res.next()) {
+                    Machine m = new Machine();
+                    m.setCode(res.getInt("MachineCode"));
+                    m.setMachineType(res.getString("MachineType"));
+                    Room room = new Room();
+                    room.setCode(Integer.parseInt(res.getString("RoomCode")));
+                    m.setRoom(room);
+                    machines.add(m);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return machines;
     }
+
+
 
     public static MachineDAO build() {
         return new MachineDAO();

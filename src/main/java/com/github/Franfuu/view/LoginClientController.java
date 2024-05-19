@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginAdminController extends Controller implements Initializable {
+public class LoginClientController extends Controller implements Initializable {
     @Override
     public void onOpen(Object input) throws Exception {
 

@@ -6,10 +6,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.Franfuu.view.MainController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.Franfuu.view.MainController">
    <children>
-      <TableView fx:id="tableInfo" layoutX="50.0" layoutY="129.0" prefHeight="291.0" prefWidth="697.0">
+      <TableView fx:id="tableInfo" layoutX="50.0" layoutY="129.0" prefHeight="291.0" prefWidth="697.0" style="-fx-background-color: grey;">
          <columns>
             <TableColumn fx:id="colCode" prefWidth="80.00006103515625" text="Cod. Cliente" />
             <TableColumn fx:id="colName" prefWidth="119.19998168945312" text="Nombre" />
@@ -19,21 +20,35 @@
             <TableColumn fx:id="colEmail" prefWidth="176.00002441406252" text="Email" />
          </columns>
       </TableView>
-      <ImageView fitHeight="105.0" fitWidth="115.0">
+      <ImageView fitHeight="117.0" fitWidth="127.0" layoutY="2.0">
          <image>
             <Image url="@_0e6cba00-2feb-4232-9ad3-a3335a49bb12.jpeg" />
          </image>
       </ImageView>
-      <Button fx:id="addClient" layoutX="136.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#openAddClient" prefHeight="42.0" prefWidth="115.0" text="Agregar Cliente" />
-      <Button fx:id="showMachines" layoutX="518.0" layoutY="32.0" mnemonicParsing="false" onAction="#openShowMachines" prefHeight="42.0" prefWidth="115.0" text="Listar Maquinas" />
-      <Button fx:id="addMachineToClient" layoutX="86.0" layoutY="441.0" mnemonicParsing="false" onAction="#openAddMachineClient" prefHeight="42.0" prefWidth="174.0" text="Añadir Maquinas al Cliente" />
-      <ImageView fx:id="exitButton" fitHeight="42.0" fitWidth="49.0" layoutX="715.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+      <Button fx:id="addClient" layoutX="136.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#openAddClient" prefHeight="58.0" prefWidth="127.0" text="Agregar Cliente">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="showMachines" layoutX="434.0" layoutY="32.0" mnemonicParsing="false" onAction="#openShowMachines" prefHeight="58.0" prefWidth="121.0" text="Listar Maquinas">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="addMachineToClient" layoutX="99.0" layoutY="441.0" mnemonicParsing="false" onAction="#openAddMachineClient" prefHeight="58.0" prefWidth="201.0" text="Añadir Maquinas al Cliente">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <ImageView fx:id="exitButton" fitHeight="58.0" fitWidth="84.0" layoutX="702.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@WhhExitalt.png" />
+            <Image url="@ElReturnKey.png" />
          </image>
       </ImageView>
-      <Button fx:id="deleteMachineToClient" layoutX="505.0" layoutY="441.0" mnemonicParsing="false" onAction="#openDeleteMachineClient" prefHeight="42.0" prefWidth="174.0" text="Eliminar Maquinas al Cliente" />
-      <Button fx:id="deleteClient" layoutX="284.0" layoutY="32.0" mnemonicParsing="false" onAction="#openDeleteClient" onMouseClicked="#openAddClient" prefHeight="42.0" prefWidth="115.0" text="Eliminar Cliente" />
-      <Button fx:id="showMachinesToClient" layoutX="297.0" layoutY="441.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="174.0" text="Maquinas asignadas" />
+      <Button fx:id="deleteMachineToClient" layoutX="493.0" layoutY="441.0" mnemonicParsing="false" onAction="#openDeleteMachineClient" prefHeight="58.0" prefWidth="202.0" text="Eliminar Maquinas al Cliente">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="deleteClient" layoutX="285.0" layoutY="32.0" mnemonicParsing="false" onAction="#openDeleteClient" onMouseClicked="#openAddClient" prefHeight="58.0" prefWidth="127.0" text="Eliminar Cliente">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
    </children>
 </AnchorPane>

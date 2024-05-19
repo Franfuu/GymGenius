@@ -1,9 +1,7 @@
 package com.github.Franfuu.view;
 
 public enum Scenes {
-    REGADMIN("view/regAdmin.fxml"), //REGISTRO ADMINISTRADOR
-    CLIENTLOGIN("view/clientLogin.fxml"), //LOGIN CLIENTE
-    CHOOSEROLE("view/chooseRole.fxml"), //ELEGIR ROL
+    WELCOME("view/Welcome.fxml"), //ELEGIR ROL
     MAINPAGE("view/mainPage.fxml"), //PAGINA PRINCIPAL
     ROOT("view/layout.fxml"), //PAGINA PRINCIPAL
     ADDCLIENT("view/addClient.fxml"),   //AÑADIR CLIENTE
@@ -12,7 +10,6 @@ public enum Scenes {
     ADDMACHINETOCLIENT("view/addMachineToClient.fxml"),     //AÑADIR MAQUINA A CLIENTE
     DELETEMACHINETOCLIENT("view/deleteMachineFromClient.fxml"),     //ELIMINAR MAQUINA DE CLIENTE
     MACHINESTOCLIENT("view/clientShowMachines.fxml"),     //VER MAQUINAS DE CLIENTE
-    SHOWMACHINESTOCLIENT("view/showMachinesToClient.fxml"),     //VER MAQUINAS DE CLIENTE SHOW
     SHOWMACHINES("view/showMachines.fxml"),     //VER MAQUINAS
     DELETECLIENT("view/deleteClient.fxml"),     //ELIMINAR CLIENTE
     DELETEMACHINE("view/deleteMachine.fxml"),     //ELIMINAR MAQUINA

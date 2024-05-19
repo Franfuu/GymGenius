@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomDAO implements DAO<Room, Integer> {
+public class RoomDAO  {
     private final static String INSERT = "INSERT INTO room (RoomCode) VALUES (?)";
     private final static String UPDATE = "UPDATE room SET RoomCode=? WHERE RoomCode=?";
     private final static String FINDALL = "SELECT RoomCode FROM room";
@@ -108,9 +108,6 @@ public class RoomDAO implements DAO<Room, Integer> {
         return result;
     }
 
-    public void close() throws IOException {
-        // Aquí puedes agregar código para cerrar recursos si es necesario
-    }
 
     public static RoomDAO build() {
         return new RoomDAO();

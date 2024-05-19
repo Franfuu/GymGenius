@@ -13,7 +13,6 @@ public class Client extends Machine  {
     private String Password;
     private String Dni;
     private String Sex;
-    private Boolean isAdmin = false;
 
     public Client() {
     }
@@ -121,6 +120,4 @@ public class Client extends Machine  {
                 '}';
     }
 
-    public void login(Client clientLogin) {
-    }
 }

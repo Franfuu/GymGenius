@@ -13,7 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientDAO {
+public class ClientDAO  implements DAO<Client>{
     private static final String FINDALL = "SELECT * FROM client";
     private static final String FINDBYCODE = "SELECT * FROM client WHERE Clientcode=?";
     private static final String INSERT = "INSERT INTO client ( Name, Surname, Email, Password, DNI, Sex) VALUES (?, ?, ?, ?, ?, ?)";
@@ -30,6 +30,7 @@ public class ClientDAO {
      * @param entity the client entity to save
      * @return the saved client entity
      */
+    @Override
     public Client save(Client entity) {
         Client result = new Client();
         if (entity == null || entity.getCode() != 0) return result;
@@ -112,6 +113,7 @@ public class ClientDAO {
      * @return true if the deletion was successful, false otherwise
      * @throws SQLException if a database access error occurs
      */
+    @Override
     public boolean delete(int clientCode) throws SQLException {
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
             pst.setInt(1, clientCode);

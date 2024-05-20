@@ -37,11 +37,6 @@
          <font>
             <Font size="14.0" />
          </font></Button>
-      <ImageView fx:id="exitButton" fitHeight="58.0" fitWidth="84.0" layoutX="702.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@ElReturnKey.png" />
-         </image>
-      </ImageView>
       <Button fx:id="deleteMachineToClient" layoutX="493.0" layoutY="441.0" mnemonicParsing="false" onAction="#openDeleteMachineClient" prefHeight="58.0" prefWidth="202.0" text="Eliminar Maquinas al Cliente">
          <font>
             <Font size="14.0" />

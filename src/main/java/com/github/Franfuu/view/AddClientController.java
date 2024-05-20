@@ -53,6 +53,16 @@ public class AddClientController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+    /**
+     * Handles the save action when the user clicks the save button.
+     * Validates input fields (name, surname, DNI, email, password, sex) and displays error messages if any field is empty
+     * or if DNI or email formats are invalid. If all validations pass, creates a new Client object and saves it using
+     * ClientDAO. Shows a success message upon successful client addition and navigates back to the main page.
+     * Closes the current window after successful operation.
+     *
+     * @param event the event triggered by the save action
+     */
     @FXML
     public void onSave(Event event) {
         try {
@@ -63,23 +73,28 @@ public class AddClientController extends Controller implements Initializable {
             String password = fieldPassword.getText().trim();
             String sex = fieldSex.getText().trim();
 
+            // Check if any field is empty
             if (name.isEmpty() || surname.isEmpty() || dni.isEmpty() || email.isEmpty() || password.isEmpty() || sex.isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, "Campos Vacíos", "Por favor, complete todos los campos.");
             } else {
-                // Validar DNI
+                // Validate DNI format
                 if (!validateDNI(dni)) {
                     showAlert(Alert.AlertType.ERROR, "Error en DNI", "El formato del DNI no es válido.");
                 } else {
-                    // Validar correo electrónico
+                    // Validate email format
                     if (!validateEmail(email)) {
                         showAlert(Alert.AlertType.ERROR, "Error en Correo Electrónico", "El formato del correo electrónico no es válido.");
                     } else {
-                        // Guardar el cliente
-                        Client client = new Client( name, surname, email, password, dni, sex);
+                        // Create Client object and save to database
+                        Client client = new Client(name, surname, email, password, dni, sex);
                         ClientDAO cdao = new ClientDAO();
                         cdao.save(client);
+
+                        // Show success message and navigate to main page
                         showAlert(Alert.AlertType.INFORMATION, "Cliente Agregado", "El cliente se ha agregado correctamente.");
                         App.currentController.changeScene(Scenes.MAINPAGE, null);
+
+                        // Close current window
                         ((Node) (event.getSource())).getScene().getWindow().hide();
                     }
                 }
@@ -90,17 +105,36 @@ public class AddClientController extends Controller implements Initializable {
         }
     }
 
+
+    /**
+     * Validates an email address using a regular expression.
+     *
+     * @param email the email address to validate
+     * @return true if the email address is valid, false otherwise
+     */
     private boolean validateEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         return email.matches(emailRegex);
     }
 
-
+    /**
+     * Validates a Spanish DNI (National Identity Document) format.
+     *
+     * @param dni the DNI number to validate
+     * @return true if the DNI format is valid, false otherwise
+     */
     private boolean validateDNI(String dni) {
         String dniRegex = "\\d{8}[a-zA-Z]";
         return dni.matches(dniRegex);
     }
 
+    /**
+     * Displays an alert dialog with specified alert type, title, and content.
+     *
+     * @param alertType the type of alert (e.g., error, information)
+     * @param title the title text of the alert
+     * @param content the content text of the alert
+     */
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -108,6 +142,7 @@ public class AddClientController extends Controller implements Initializable {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
 
 
 }

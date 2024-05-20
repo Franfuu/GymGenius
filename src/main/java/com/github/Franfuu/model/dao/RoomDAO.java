@@ -13,16 +13,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomDAO  {
-    private final static String INSERT = "INSERT INTO room (RoomCode) VALUES (?)";
-    private final static String UPDATE = "UPDATE room SET RoomCode=? WHERE RoomCode=?";
-    private final static String FINDALL = "SELECT RoomCode FROM room";
-    private final static String FINDBYCODE = "SELECT RoomCode FROM room WHERE RoomCode=?";
-    private final static String DELETE = "DELETE FROM room WHERE RoomCode=?";
-    private final static String FINDMACHINESBYROOM = "SELECT * FROM Machine WHERE RoomCode = ?;";
+public class RoomDAO {
+    private static final String INSERT = "INSERT INTO room (RoomCode) VALUES (?)";
+    private static final String UPDATE = "UPDATE room SET RoomCode=? WHERE RoomCode=?";
+    private static final String FINDALL = "SELECT RoomCode FROM room";
+    private static final String FINDBYCODE = "SELECT RoomCode FROM room WHERE RoomCode=?";
+    private static final String DELETE = "DELETE FROM room WHERE RoomCode=?";
+    private static final String FINDMACHINESBYROOM = "SELECT * FROM Machine WHERE RoomCode = ?;";
 
-
-
+    /**
+     * Saves a new room entity to the database.
+     *
+     * @param entity the room entity to save
+     * @return the saved room entity
+     */
     public static Room save(Room entity) {
         Room result = entity;
         if (entity == null || entity.getCode() == 0) return result;
@@ -40,6 +44,12 @@ public class RoomDAO  {
         return result;
     }
 
+    /**
+     * Updates an existing room entity in the database.
+     *
+     * @param entity the room entity to update
+     * @return the updated room entity
+     */
     public Room update(Room entity) {
         Room result = new Room();
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(UPDATE)) {
@@ -51,16 +61,27 @@ public class RoomDAO  {
         return result;
     }
 
+    /**
+     * Deletes a room from the database by its code.
+     *
+     * @param roomCode the code of the room to delete
+     * @return true if the deletion was successful, false otherwise
+     * @throws SQLException if a database access error occurs
+     */
     public static boolean delete(int roomCode) throws SQLException {
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
             pst.setInt(1, roomCode);
             int rowsAffected = pst.executeUpdate();
-
             return rowsAffected > 0;
         }
     }
 
-
+    /**
+     * Finds a room by its code.
+     *
+     * @param code the code of the room to find
+     * @return the found room or null if no room was found
+     */
     public static Room findByRoomCode(Integer code) {
         Room result = null;
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FINDBYCODE)) {
@@ -70,6 +91,7 @@ public class RoomDAO  {
                 result = new Room();
                 result.setCode(res.getInt("RoomCode"));
 
+                // Fetch machines associated with the room
                 ArrayList<Machine> machines = new ArrayList<>();
                 try (PreparedStatement pstMachine = ConnectionMariaDB.getConnection().prepareStatement(FINDMACHINESBYROOM)) {
                     pstMachine.setInt(1, code);
@@ -91,7 +113,11 @@ public class RoomDAO  {
         return result;
     }
 
-
+    /**
+     * Finds all rooms in the database.
+     *
+     * @return a list of all rooms
+     */
     public static List<Room> findAll() {
         List<Room> result = new ArrayList<>();
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(FINDALL)) {
@@ -108,12 +134,12 @@ public class RoomDAO  {
         return result;
     }
 
-
+    /**
+     * Creates and returns a new instance of RoomDAO.
+     *
+     * @return new instance of RoomDAO
+     */
     public static RoomDAO build() {
         return new RoomDAO();
     }
-
-
 }
-
-

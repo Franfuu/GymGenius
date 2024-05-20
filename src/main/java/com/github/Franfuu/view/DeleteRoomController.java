@@ -37,6 +37,14 @@ public class DeleteRoomController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+    /**
+     * Handles the action of deleting a room from the database.
+     * Retrieves the room code from the text field, validates it,
+     * and deletes the room if valid. Shows appropriate alert messages
+     * for success, validation errors, or database operation failures.
+     *
+     * @param event the event triggered by the delete room button
+     */
     @FXML
     private void deleteRoom(Event event) {
         String roomCode = fieldRoomCode.getText().trim();
@@ -57,7 +65,7 @@ public class DeleteRoomController extends Controller implements Initializable {
                     App.currentController.changeScene(Scenes.SHOWMACHINES, null);
                     ((Node) (event.getSource())).getScene().getWindow().hide();
                 } else {
-                    showAlert(Alert.AlertType.ERROR, "Error", "El código de sala no coincide con ninguna máquina en la base de datos.");
+                    showAlert(Alert.AlertType.ERROR, "Error", "El código de sala no coincide con ninguna sala en la base de datos.");
                 }
             } catch (NumberFormatException e) {
                 showAlert(Alert.AlertType.ERROR, "Error", "El código de sala debe ser un número válido.");
@@ -66,8 +74,8 @@ public class DeleteRoomController extends Controller implements Initializable {
                 e.printStackTrace();
             }
         }
-
     }
+
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);

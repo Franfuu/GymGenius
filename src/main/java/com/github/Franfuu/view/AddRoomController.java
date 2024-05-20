@@ -40,30 +40,39 @@ public class AddRoomController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+    /**
+     * Handles the save action when the user clicks the save button.
+     * Validates and saves a new room code, ensuring it's not empty and within valid range.
+     * Checks if the room code already exists in the database before saving.
+     * Shows appropriate error messages for invalid input or existing room codes.
+     *
+     * @param event the event triggered by the save action
+     * @throws Exception if there's an issue during database operations or parsing room code
+     */
     public void onSave(Event event) throws Exception {
         String roomCodeText = fieldRoom.getText().trim();
 
+        // Check if room code field is empty
         if (roomCodeText.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "El campo no puede estar vacío.");
         } else {
             try {
                 int roomCode = Integer.parseInt(roomCodeText);
 
-
+                // Check if room code is within valid range
                 if (roomCode > 9999) {
                     showAlert(Alert.AlertType.ERROR, "Error", "El valor no puede ser mayor que 9999.");
                 } else {
                     RoomDAO roomDAO = new RoomDAO();
 
-
+                    // Check if room code already exists in the database
                     if (roomDAO.findByRoomCode(roomCode) != null) {
                         showAlert(Alert.AlertType.ERROR, "Error", "El código de habitación ya existe en la base de datos.");
                     } else {
-                        // Guardar la habitación
+                        // Save new room if it doesn't exist
                         Room room = new Room(roomCode);
                         roomDAO.save(room);
-
-
+                        // Navigate to show machines page and close current window
                         App.currentController.changeScene(Scenes.SHOWMACHINES, null);
                         ((Node) (event.getSource())).getScene().getWindow().hide();
                     }
@@ -73,6 +82,7 @@ public class AddRoomController extends Controller implements Initializable {
             }
         }
     }
+
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);

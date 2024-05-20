@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MachineDAO {
+public class MachineDAO implements DAO<Machine> {
     private static final String INSERT = "INSERT INTO Machine (RoomCode, MachineType) VALUES (?,?)";
     private static final String UPDATE = "UPDATE Machine SET RoomCode=?, MachineType=? WHERE MachineCode=?";
     private static final String FIND_BY_CODE = "SELECT MachineCode, RoomCode, MachineType FROM Machine WHERE MachineCode=?";
@@ -28,6 +28,7 @@ public class MachineDAO {
      * @return the saved machine entity
      * @throws SQLException if a database access error occurs
      */
+    @Override
     public Machine save(Machine entity) throws SQLException {
         if (entity == null) return null;
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
@@ -42,6 +43,9 @@ public class MachineDAO {
         }
         return entity;
     }
+
+
+
 
     /**
      * Updates an existing machine entity in the database.
@@ -68,6 +72,7 @@ public class MachineDAO {
      * @return true if the deletion was successful, false otherwise
      * @throws SQLException if a database access error occurs
      */
+    @Override
     public boolean delete(int machineCode) throws SQLException {
         try (PreparedStatement pst = ConnectionMariaDB.getConnection().prepareStatement(DELETE)) {
             pst.setInt(1, machineCode);
@@ -112,7 +117,7 @@ public class MachineDAO {
                 while (res.next()) {
                     Machine machine = new Machine();
                     machine.setCode(res.getInt("MachineCode"));
-                    // Eagerly fetch the Room entity
+                    // Eager fetch the Room entity
                     machine.setRoom(RoomDAO.findByRoomCode(res.getInt("RoomCode")));
                     machine.setMachineType(res.getString("MachineType"));
                     result.add(machine);

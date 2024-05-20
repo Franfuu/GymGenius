@@ -47,21 +47,27 @@ public class DeleteMachineToClientController extends Controller implements Initi
     public void onClose(Object output) {
 
     }
-
-    public void goBackButton() throws Exception {
-        App.currentController.changeScene(Scenes.MAINPAGE, null);
-    }
-
+    /**
+     * Initializes the controller upon FXML loading.
+     * Retrieves all clients and machines from the database to populate the client and machine combo boxes.
+     * Maps client codes to client names and machine codes to machine types for combo box display.
+     * Sets up event handling for deleting a machine from a client.
+     * Shows alerts for successful deletion, assignment error, or database operation failure.
+     *
+     * @param location  the location used to resolve relative paths for the root object, or null if the location is not known
+     * @param resources the resources used to localize the root object, or null if the root object was not localized
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Populate client combo box with client names
         List<Client> clients = ClientDAO.build().findAll();
-        //List<String> ClientCode = clients.stream().map(client -> String.valueOf(client.getCode())).collect(Collectors.toList());
         clientsMap = new HashMap<>();
         for (Client client : clients) {
             clientsMap.put(String.valueOf(client.getCode()), client.getName());
         }
         clientComboBox.setItems(FXCollections.observableArrayList(clientsMap.values()));
 
+        // Populate machine combo box with machine types
         List<Machine> machines;
         try {
             machines = MachineDAO.findAll();
@@ -72,9 +78,15 @@ public class DeleteMachineToClientController extends Controller implements Initi
         for (Machine machine : machines) {
             machinesMap.put(String.valueOf(machine.getCode()), machine.getMachineType());
         }
-        //List<String> MachinesCode = machines.stream().map(Machine::getMachineType).collect(Collectors.toList());
         machineComboBox.setItems(FXCollections.observableArrayList(machinesMap.values()));
     }
+
+    /**
+     * Handles the action of deleting a machine from a client.
+     * Retrieves selected machine and client codes from combo boxes, validates them,
+     * and deletes the association from the database.
+     * Displays appropriate alert messages for success, assignment error, or database operation failure.
+     */
     @FXML
     private void deleteMachineFromClient() {
         String codeMachine = "";
@@ -82,7 +94,7 @@ public class DeleteMachineToClientController extends Controller implements Initi
         for (String key : machinesMap.keySet()) {
             if (machinesMap.get(key).equals(valueMachine)) {
                 codeMachine = key;
-
+                break;
             }
         }
 
@@ -91,7 +103,7 @@ public class DeleteMachineToClientController extends Controller implements Initi
         for (String key : clientsMap.keySet()) {
             if (clientsMap.get(key).equals(valueClient)) {
                 codeClient = key;
-
+                break;
             }
         }
 
@@ -117,6 +129,7 @@ public class DeleteMachineToClientController extends Controller implements Initi
             showAlert(Alert.AlertType.ERROR, "Error", "No se ha seleccionado nada en la base de datos.");
         }
     }
+
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

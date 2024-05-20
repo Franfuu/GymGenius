@@ -45,34 +45,58 @@ public class ClientMachineController extends Controller implements Initializable
     private Text textName;
     private ObservableList<Machine> machineList;
     private Client client;
-
+    /**
+     * Initializes and manages the display of machines associated with a specific client.
+     * Displays a table view of machines assigned to the client, including machine code, type, and room.
+     * Allows navigation back to the main page and dynamically updates client information.
+     *
+     * @param input the input data (Client object) passed to initialize the controller
+     * @throws Exception if there's an issue during database operations or client information retrieval
+     */
     @Override
     public void onOpen(Object input) throws Exception {
         client = (Client) input;
         showName();
+
+        // Retrieve machines associated with the client from the database
         List<Machine> machines = MachineDAO.findByCode(client.getCode());
         this.machineList = FXCollections.observableArrayList(machines);
         tableMachine.setItems(this.machineList);
     }
-
-
-
     @Override
     public void onClose(Object output) {
-
     }
 
+    /**
+     * Updates client name display on the UI.
+     */
+    private void showName() {
+        textName.setText(client.getName() + " " + client.getSurname());
+    }
+
+    /**
+     * Navigates back to the main page of the application.
+     * Throws an exception if there's an issue during scene change.
+     *
+     * @throws Exception if there's an issue during scene change
+     */
+    @FXML
+    private void goBack() throws Exception {
+        App.currentController.changeScene(Scenes.MAINPAGE, null);
+    }
+
+    /**
+     * Initializes table columns and their respective cell value factories for displaying machine details.
+     * Configures columns for machine code, type, and associated room.
+     *
+     * @param location the location used to resolve relative paths for the root object
+     * @param resources the resources used to localize the root object, or null if the root object was not localized
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colCodeMachine.setCellValueFactory(machine -> new SimpleIntegerProperty(machine.getValue().getCode()).asObject());
         colMachine.setCellValueFactory(machine -> new SimpleStringProperty(machine.getValue().getMachineType()));
         colRoom.setCellValueFactory(machine -> new SimpleIntegerProperty(machine.getValue().getRoom().getCode()).asObject());
     }
-    private void showName() {
-        textName.setText(client.getName() + " " + client.getSurname());
-    }
-    @FXML
-    private void goBack() throws Exception {
-        App.currentController.changeScene(Scenes.MAINPAGE, null);
-    }
+
 }

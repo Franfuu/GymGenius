@@ -48,28 +48,58 @@ public class ShowEditMachinesController extends Controller implements Initializa
     private ObservableList<Machine> machineList;
 
 
+    /**
+     * Initializes the view associated with this controller when it is opened.
+     * Retrieves all machines from the database and populates them into the table view.
+     *
+     * @param input Object input (typically not used directly in this context).
+     * @throws Exception If an error occurs while retrieving machines from the database.
+     */
     @Override
     public void onOpen(Object input) throws Exception {
+        // Retrieve all machines from the database
         List<Machine> machines = MachineDAO.findAll();
-        this.machineList = FXCollections.observableArrayList(machines);
-        tableMachine.setItems(this.machineList);
 
+        // Convert the list of machines into an observable list for JavaFX
+        this.machineList = FXCollections.observableArrayList(machines);
+
+        // Set the observable list as the items to display in the table view (tableMachine)
+        tableMachine.setItems(this.machineList);
     }
+
 
     @Override
     public void onClose(Object output) {
 
     }
 
+    /**
+     * Navigates back to the main page.
+     *
+     * @throws Exception If an error occurs while changing the scene to the main page.
+     */
+    @FXML
     public void goBack() throws Exception {
         App.currentController.changeScene(Scenes.MAINPAGE, null);
     }
 
+
+    /**
+     * Initializes the controller when the associated view is loaded.
+     * Sets up the table view for machines with editable columns.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resources The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Make the table view editable
         tableMachine.setEditable(true);
+
+        // Set up column for machine code
         colCodeMachine.setCellValueFactory(machine -> new SimpleIntegerProperty(machine.getValue().getCode()).asObject());
 
+        // Set up column for room code
         colRoom.setCellValueFactory(machine -> new SimpleIntegerProperty(machine.getValue().getRoom().getCode()).asObject());
         colRoom.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         colRoom.setOnEditCommit(event -> {
@@ -80,20 +110,21 @@ public class ShowEditMachinesController extends Controller implements Initializa
                 Machine machine = MachineDAO.findByMachineCode(event.getRowValue().getCode());
                 Room room = machine.getRoom();
                 if (event.getNewValue().longValue() <= 50) {
-                    room.setCode(Integer.parseInt(String.valueOf(event.getNewValue())));
+                    room.setCode(event.getNewValue());
                     MachineDAO.build().update(machine);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Error, el campo no puede superar los 50 caracteres");
+                    alert.setContentText("Error, the field cannot exceed 50 characters");
                     alert.show();
                 }
             } catch (NumberFormatException | SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Error, el valor ingresado no es un número válido");
+                alert.setContentText("Error, the entered value is not a valid number");
                 alert.show();
             }
         });
 
+        // Set up column for machine type
         colMachine.setCellValueFactory(machine -> new SimpleStringProperty(machine.getValue().getMachineType()));
         colMachine.setCellFactory(TextFieldTableCell.forTableColumn());
         colMachine.setOnEditCommit(event -> {
@@ -108,30 +139,54 @@ public class ShowEditMachinesController extends Controller implements Initializa
                     MachineDAO.build().update(machine);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Error, el campo no puede superar los 50 caracteres");
+                    alert.setContentText("Error, the field cannot exceed 50 characters");
                     alert.show();
                 }
             } catch (NumberFormatException | SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Error, el valor ingresado no es un número válido");
+                alert.setContentText("Error, the entered value is not a valid number");
                 alert.show();
             }
         });
-
     }
 
+
+    /**
+     * Opens a modal dialog to add a new room.
+     *
+     * @throws Exception If an error occurs while opening the modal dialog.
+     */
     public void openAddRoom() throws Exception {
-        App.currentController.openModal(Scenes.ADDROOM, "Agregando sala...", this, null);
+        App.currentController.openModal(Scenes.ADDROOM, "Adding room...", this, null);
     }
+
+    /**
+     * Opens a modal dialog to add a new machine.
+     *
+     * @throws Exception If an error occurs while opening the modal dialog.
+     */
     public void openAddMachine() throws Exception {
-        App.currentController.openModal(Scenes.ADDMACHINE, "Agregando maquina...", this, null);
+        App.currentController.openModal(Scenes.ADDMACHINE, "Adding machine...", this, null);
     }
+
+    /**
+     * Opens a modal dialog to delete an existing machine.
+     *
+     * @throws Exception If an error occurs while opening the modal dialog.
+     */
     public void openDeleteMachine() throws Exception {
-        App.currentController.openModal(Scenes.DELETEMACHINE, "Eliminando maquina...", this, null);
+        App.currentController.openModal(Scenes.DELETEMACHINE, "Deleting machine...", this, null);
     }
+
+    /**
+     * Opens a modal dialog to delete an existing room.
+     *
+     * @throws Exception If an error occurs while opening the modal dialog.
+     */
     public void openDeleteRoom() throws Exception {
-        App.currentController.openModal(Scenes.DELETEROOM, "Eliminando sala...", this, null);
+        App.currentController.openModal(Scenes.DELETEROOM, "Deleting room...", this, null);
     }
+
 
 
 }
